@@ -2,322 +2,349 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DSA Sheet Tracker</title>
+<title>DSA Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F5F6FB;
-    --bg-alt:#EEF0F9;
-    --surface:#FFFFFF;
-    --ink:#14151F;
+    --nav-bg:#0B0D12;
+    --nav-line:#22242D;
+    --nav-text:#E7E8EE;
+    --nav-text-soft:#9497A6;
+    --body-bg:#F1F2F7;
+    --card-bg:#FFFFFF;
+    --card-line:#E8E9F0;
+    --row-alt:#F8F9FC;
+    --ink:#181A22;
     --ink-soft:#63657A;
     --ink-faint:#9EA1B5;
-    --line:#E7E8F2;
-    --line-strong:#D3D5E4;
-    --accent:#4640DE;
-    --accent-ink:#3A35C4;
-    --accent-soft:#EDECFC;
-    --accent-glow:rgba(70,64,222,0.16);
-    --exclude:#F04438;
-    --exclude-soft:#FDEDEC;
-    --easy:#12965A;
-    --easy-soft:#E4F7EE;
-    --medium:#B96E05;
-    --medium-soft:#FCF0DD;
-    --hard:#D8362A;
-    --hard-soft:#FBEAE8;
-    --font-display: 'Sora', 'IBM Plex Sans', system-ui, sans-serif;
+    --accent:#2F6FE4;
+    --accent-ink:#2159C4;
+    --accent-soft:#EAF1FE;
+    --exclude:#E8524A;
+    --exclude-soft:#FCEAE9;
+    --easy:#22B573;
+    --easy-soft:#E3F8EE;
+    --medium:#F5A623;
+    --medium-soft:#FEF2DE;
+    --hard:#EF5A5A;
+    --hard-soft:#FCEAEA;
+    --icon-bg:#F0F1F6;
+    --icon-ink:#585B6B;
+    --font-display: 'Poppins', 'IBM Plex Sans', system-ui, sans-serif;
     --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
     --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-    --radius: 12px;
-    --shadow-card: 0 1px 2px rgba(20,21,31,0.04), 0 8px 24px -12px rgba(20,21,31,0.10);
+    --radius: 14px;
   }
-  :root:not([data-theme="light"]) {
-    @media (prefers-color-scheme: dark) {
-      --bg:#111219; --bg-alt:#0C0D12; --surface:#191B24; --ink:#EEEEF3; --ink-soft:#A6A8BC; --ink-faint:#6D6F84;
-      --line:#282A36; --line-strong:#383A48; --accent:#8A84FF; --accent-ink:#A6A1FF; --accent-soft:#242244;
-      --accent-glow:rgba(138,132,255,0.20);
-      --exclude:#F0685D; --exclude-soft:#2E1E1E;
-      --easy:#3FCF8E; --easy-soft:#122A22;
-      --medium:#E3A63E; --medium-soft:#2E2412;
-      --hard:#EC6259; --hard-soft:#2E1C1B;
-      --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg:#111219; --bg-alt:#0C0D12; --surface:#191B24; --ink:#EEEEF3; --ink-soft:#A6A8BC; --ink-faint:#6D6F84;
-    --line:#282A36; --line-strong:#383A48; --accent:#8A84FF; --accent-ink:#A6A1FF; --accent-soft:#242244;
-    --accent-glow:rgba(138,132,255,0.20);
-    --exclude:#F0685D; --exclude-soft:#2E1E1E;
-    --easy:#3FCF8E; --easy-soft:#122A22;
+  :root[data-theme="dark"]{
+    --body-bg:#0F1116; --card-bg:#171922; --card-line:#282A35; --row-alt:#1B1D27;
+    --ink:#EDEEF3; --ink-soft:#A6A9BC; --ink-faint:#6D7086;
+    --accent:#5B8DEF; --accent-ink:#7BA3F5; --accent-soft:#1B2740;
+    --exclude:#F0685D; --exclude-soft:#31201E;
+    --easy:#3FCF8E; --easy-soft:#132A21;
     --medium:#E3A63E; --medium-soft:#2E2412;
     --hard:#EC6259; --hard-soft:#2E1C1B;
-    --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    --icon-bg:#20222D; --icon-ink:#B5B8C9;
+    --nav-bg:#050608; --nav-line:#1C1E27;
   }
 
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(900px 420px at 85% -8%, var(--accent-glow), transparent 60%),
-      var(--bg);
-    background-attachment:fixed;
-    color:var(--ink); font-family:var(--font-ui);
-    font-size:14.5px; line-height:1.5; -webkit-font-smoothing:antialiased;
+    background:var(--body-bg); color:var(--ink); font-family:var(--font-ui);
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
   }
   a{color:inherit;}
-  ::selection{background:var(--accent-glow);}
 
-  .app{max-width:1240px; margin:0 auto; padding:32px 22px 90px;}
-
-  header.hero{
-    display:flex; align-items:center; justify-content:space-between; gap:28px;
-    margin-bottom:26px; padding:22px 26px;
-    background:var(--surface); border:1px solid var(--line); border-radius:16px;
-    box-shadow:var(--shadow-card);
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:var(--nav-bg); border-bottom:1px solid var(--nav-line);
+    display:flex; align-items:center; gap:18px; padding:12px 22px;
+    position:sticky; top:0; z-index:20;
   }
-  header.hero .htext{flex:1; min-width:0;}
-  header.hero h1{
-    font-family:var(--font-display); font-size:23px; font-weight:700; letter-spacing:-0.015em;
-    margin:0 0 6px; color:var(--ink);
+  .brand{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .brand .mark{
+    width:30px; height:30px; border-radius:8px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; color:#fff;
+    font-family:var(--font-display); font-weight:800; font-size:14px;
   }
-  header.hero p{margin:0; color:var(--ink-soft); font-size:13.2px; max-width:60ch; line-height:1.55;}
+  .brand span{font-family:var(--font-display); font-weight:700; font-size:15.5px; color:var(--nav-text); letter-spacing:-0.01em;}
+  .brand b{color:var(--accent-ink);}
 
-  .ring-wrap{display:flex; align-items:center; gap:16px; flex-shrink:0;}
-  .ring{position:relative; width:84px; height:84px; flex-shrink:0;}
-  .ring svg{width:100%; height:100%; transform:rotate(-90deg);}
-  .ring circle{fill:none; stroke-width:8;}
-  .ring .track{stroke:var(--line);}
-  .ring .fill{stroke:var(--accent); stroke-linecap:round; transition:stroke-dashoffset 0.5s cubic-bezier(.4,0,.2,1);}
-  .ring .pct{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-display); font-weight:700; font-size:17px; color:var(--ink);
+  .nav-search{flex:1; max-width:460px; position:relative;}
+  .nav-search input{
+    width:100%; padding:9px 14px 9px 36px; border-radius:10px; border:1px solid var(--nav-line);
+    background:#181A22; color:var(--nav-text); font:inherit; font-size:13px;
   }
-  .ring-label{font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); line-height:1.5;}
-  .ring-label b{display:block; font-size:19px; font-family:var(--font-display); color:var(--ink); font-weight:700;}
+  .nav-search input::placeholder{color:var(--nav-text-soft);}
+  .nav-search input:focus{outline:none; border-color:var(--accent);}
+  .nav-search svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--nav-text-soft);}
 
-  .layout{display:grid; grid-template-columns:250px 1fr; gap:24px; align-items:start;}
-
-  .rail{
-    position:sticky; top:22px; display:flex; flex-direction:column; gap:18px;
-    max-height:calc(100vh - 44px); overflow-y:auto; padding:18px;
-    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow-card);
+  .nav-right{display:flex; align-items:center; gap:10px; margin-left:auto; flex-shrink:0;}
+  .streak-pill{
+    display:flex; align-items:center; gap:6px; padding:7px 13px; border-radius:20px;
+    background:#181A22; border:1px solid var(--nav-line); color:var(--nav-text);
+    font-family:var(--font-mono); font-size:12px; white-space:nowrap;
   }
-  .rail h2{font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); margin:0 0 10px; font-weight:700;}
-  .rail h2 .sub{text-transform:none; letter-spacing:0; font-weight:400; margin-left:5px; color:var(--ink-faint);}
-
-  .list-row{display:flex; align-items:center; gap:9px; width:100%; padding:6px 4px; border-radius:7px; font-size:12.6px;}
-  .list-row .lname{flex:1; color:var(--ink); cursor:default; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-  .list-row .lcount{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-right:1px;}
-  .tri-btn{
-    width:22px; height:22px; border-radius:7px; border:1.5px solid var(--line-strong);
-    background:var(--bg); cursor:pointer; flex-shrink:0; padding:0;
+  .streak-pill svg{width:13px; height:13px; color:#F5A623;}
+  .theme-toggle{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--nav-line);
+    background:#181A22; color:var(--nav-text-soft); cursor:pointer; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
-    color:var(--ink-faint); transition:all 0.14s ease;
   }
-  .tri-btn svg{width:12px; height:12px;}
-  .tri-btn:hover{border-color:var(--accent);}
-  .tri-btn[data-state="include"]{background:var(--accent); border-color:var(--accent); color:#fff;}
-  .tri-btn[data-state="exclude"]{background:var(--exclude); border-color:var(--exclude); color:#fff;}
+  .theme-toggle:hover{color:var(--accent-ink); border-color:var(--accent);}
+  .theme-toggle svg{width:16px; height:16px;}
+  .reset-pill{
+    padding:8px 16px; border-radius:20px; border:1.5px solid var(--accent);
+    background:transparent; color:var(--accent-ink); font:inherit; font-size:12.5px; font-weight:600;
+    cursor:pointer; white-space:nowrap;
+  }
+  .reset-pill:hover{background:var(--accent); color:#fff;}
 
-  .mode-toggle{display:flex; gap:4px; margin-top:10px; padding:3px; background:var(--bg); border-radius:9px; border:1px solid var(--line);}
+  /* ---------- Shell layout ---------- */
+  .shell{display:grid; grid-template-columns:240px 1fr; gap:20px; max-width:1320px; margin:0 auto; padding:20px 22px 90px; align-items:start;}
+
+  .sidebar{
+    position:sticky; top:72px; display:flex; flex-direction:column; gap:10px;
+    max-height:calc(100vh - 92px); overflow-y:auto; padding-right:2px;
+  }
+  .nav-card{
+    background:var(--card-bg); border:1px solid var(--card-line); border-radius:12px;
+    padding:14px; box-shadow:0 1px 2px rgba(20,21,31,0.03);
+  }
+  .nav-card h2{
+    font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint);
+    margin:0 0 10px; font-weight:700;
+  }
+  .nav-card h2 .sub{text-transform:none; letter-spacing:0; font-weight:400; margin-left:4px;}
+
+  .sheet-row{
+    display:flex; align-items:center; gap:9px; width:100%; padding:8px 10px;
+    border-radius:9px; font-size:12.8px; margin-bottom:4px; background:var(--row-alt);
+    border:1px solid transparent; transition:all 0.14s ease;
+  }
+  .sheet-row.checked{background:var(--accent); border-color:var(--accent);}
+  .sheet-row.checked .lname, .sheet-row.checked .lcount{color:#fff;}
+  .sheet-row .lname{flex:1; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500;}
+  .sheet-row .lcount{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint);}
+  .sheet-row input[type="checkbox"]{accent-color:#fff; width:14px; height:14px; cursor:pointer; flex-shrink:0;}
+  .exclude-btn{
+    width:19px; height:19px; border-radius:6px; border:1.5px solid var(--card-line);
+    background:var(--card-bg); cursor:pointer; flex-shrink:0; padding:0;
+    display:flex; align-items:center; justify-content:center; color:var(--ink-faint);
+  }
+  .exclude-btn svg{width:10px; height:10px;}
+  .exclude-btn:hover{border-color:var(--exclude); color:var(--exclude);}
+  .exclude-btn.active{background:var(--exclude); border-color:var(--exclude); color:#fff;}
+  .sheet-row.checked .exclude-btn{background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.4); color:#fff;}
+
+  .mode-toggle{display:flex; gap:4px; margin-top:6px; padding:3px; background:var(--row-alt); border-radius:9px;}
   .mode-toggle button{
     flex:1; padding:6px 4px; border-radius:7px; border:none; font-family:var(--font-mono);
-    background:transparent; color:var(--ink-soft); cursor:pointer; font-size:11px; transition:all 0.14s ease;
+    background:transparent; color:var(--ink-soft); cursor:pointer; font-size:10.8px;
   }
-  .mode-toggle button.active{background:var(--surface); color:var(--accent-ink); font-weight:600; box-shadow:0 1px 3px rgba(20,21,31,0.12);}
-  .mode-hint{font-size:11px; color:var(--ink-faint); margin-top:8px; line-height:1.5;}
+  .mode-toggle button.active{background:var(--card-bg); color:var(--accent-ink); font-weight:600; box-shadow:0 1px 3px rgba(20,21,31,0.1);}
+  .mode-hint{font-size:10.8px; color:var(--ink-faint); margin-top:8px; line-height:1.5;}
 
   .chipbar{display:flex; flex-wrap:wrap; gap:6px;}
   .chip{
-    padding:6px 12px; border-radius:20px; border:1.5px solid var(--line-strong);
-    background:var(--bg); color:var(--ink-soft); font-size:12px; font-family:var(--font-mono);
-    cursor:pointer; user-select:none; transition:all 0.14s ease;
+    padding:6px 12px; border-radius:20px; border:1.5px solid var(--card-line);
+    background:var(--row-alt); color:var(--ink-soft); font-size:11.5px; font-family:var(--font-mono);
+    cursor:pointer; user-select:none; font-weight:600;
   }
-  .chip:hover{border-color:var(--ink-faint);}
   .chip.easy.active{background:var(--easy); border-color:var(--easy); color:#fff;}
   .chip.medium.active{background:var(--medium); border-color:var(--medium); color:#fff;}
   .chip.hard.active{background:var(--hard); border-color:var(--hard); color:#fff;}
 
-  .topic-list{display:flex; flex-direction:column; max-height:260px; overflow-y:auto; padding-right:2px;}
-  .topic-item{display:flex; align-items:center; gap:8px; padding:4.5px 3px; font-size:12.6px; color:var(--ink-soft); cursor:pointer; border-radius:6px;}
-  .topic-item:hover{background:var(--bg);}
-  .topic-item input{accent-color:var(--accent); width:14px; height:14px; flex-shrink:0;}
+  .topic-list{display:flex; flex-direction:column; max-height:250px; overflow-y:auto;}
+  .topic-item{display:flex; align-items:center; gap:8px; padding:5px 4px; font-size:12.4px; color:var(--ink-soft); cursor:pointer; border-radius:6px;}
+  .topic-item:hover{background:var(--row-alt);}
+  .topic-item input{accent-color:var(--accent); width:13px; height:13px; flex-shrink:0;}
   .topic-item .tname{flex:1;}
-  .topic-item .tcount{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
+  .topic-item .tcount{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint);}
 
   .rail-reset{
-    font-size:12px; color:var(--accent-ink); background:none; border:none; cursor:pointer;
+    font-size:11.5px; color:var(--accent-ink); background:none; border:none; cursor:pointer;
     padding:6px 0 0; text-align:left; font-family:var(--font-ui); font-weight:600;
   }
 
-  .main{min-width:0;}
-
-  .toolbar{display:flex; gap:10px; align-items:center; margin-bottom:16px; flex-wrap:wrap;}
-  .search{flex:1; min-width:180px; position:relative;}
-  .search input{
-    width:100%; padding:11px 14px 11px 38px; border-radius:11px; border:1.5px solid var(--line);
-    background:var(--surface); color:var(--ink); font:inherit; font-size:13.5px;
-    box-shadow:var(--shadow-card);
-  }
-  .search input:focus{outline:none; border-color:var(--accent);}
-  .search svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--ink-faint);}
-  .result-count{font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); white-space:nowrap; padding:0 4px;}
-
-  .active-filters{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+  /* ---------- Main content ---------- */
+  .main{min-width:0; display:flex; flex-direction:column; gap:14px;}
+  .active-filters{display:flex; flex-wrap:wrap; gap:6px;}
   .pill{
     display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:20px;
-    font-family:var(--font-mono); font-size:11px; font-weight:600;
+    font-family:var(--font-mono); font-size:10.8px; font-weight:600;
   }
   .pill.inc{background:var(--accent-soft); color:var(--accent-ink);}
   .pill.exc{background:var(--exclude-soft); color:var(--exclude);}
+  .result-count{font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft);}
 
-  .list-card{
-    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow-card); overflow:hidden;
+  .group{
+    background:var(--card-bg); border:1px solid var(--card-line); border-radius:var(--radius);
+    overflow:hidden; box-shadow:0 1px 2px rgba(20,21,31,0.03);
   }
+  .group-head{
+    display:flex; align-items:center; gap:10px; padding:16px 20px; cursor:pointer;
+  }
+  .group-head h3{font-family:var(--font-display); font-size:14.5px; font-weight:700; color:var(--accent-ink); margin:0; flex:1;}
+  .group-head .gmeta{font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint);}
+  .group-head .chev{width:16px; height:16px; color:var(--ink-faint); transition:transform 0.2s ease; flex-shrink:0;}
+  .group.collapsed .chev{transform:rotate(-90deg);}
+  .group.collapsed .col-head, .group.collapsed .row{display:none;}
 
-  .group{border-bottom:1px solid var(--line);}
-  .group:last-child{border-bottom:none;}
-  .group-head{display:flex; align-items:center; gap:12px; padding:13px 18px; background:var(--bg-alt);}
-  .group-head h3{font-size:13px; font-weight:700; margin:0; white-space:nowrap;}
-  .group-head .gbar{flex:1; height:5px; border-radius:4px; background:var(--line); overflow:hidden;}
-  .group-head .gbar-fill{height:100%; background:var(--accent); border-radius:4px; transition:width 0.3s ease;}
-  .group-head .gmeta{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); white-space:nowrap;}
+  .col-head{
+    display:grid; grid-template-columns:26px 1fr 92px 200px 60px; align-items:center; gap:12px;
+    padding:9px 20px; border-top:1px solid var(--card-line); border-bottom:1px solid var(--card-line);
+    background:var(--row-alt); font-size:11px; font-weight:700; color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.03em;
+  }
 
   .row{
-    display:grid; grid-template-columns:22px 1fr 74px auto; align-items:center; gap:12px;
-    padding:10px 18px; border-bottom:1px solid var(--line); font-size:13.5px;
-    transition:background 0.1s ease;
+    display:grid; grid-template-columns:26px 1fr 92px 200px 60px; align-items:center; gap:12px;
+    padding:11px 20px; font-size:13.2px; border-bottom:1px solid var(--card-line);
   }
-  .group .row:last-child{border-bottom:none;}
-  .row:hover{background:var(--bg-alt);}
-  .row input[type="checkbox"]{accent-color:var(--accent); width:16px; height:16px; cursor:pointer;}
-  .row.done{background:var(--bg-alt);}
+  .row:last-child{border-bottom:none;}
+  .row:nth-child(even){background:var(--row-alt);}
+  .row input[type="checkbox"]{accent-color:var(--accent); width:15px; height:15px; cursor:pointer;}
   .row.done .rtitle a{color:var(--ink-faint); text-decoration:line-through;}
-  .rtitle a{text-decoration:none;}
+  .rtitle a{text-decoration:none; font-weight:500;}
   .rtitle a:hover{color:var(--accent-ink); text-decoration:underline;}
 
-  .diff{font-family:var(--font-mono); font-size:11px; font-weight:600; text-align:center; padding:3px 0; border-radius:6px;}
-  .diff.Easy{color:var(--easy); background:var(--easy-soft);}
-  .diff.Medium{color:var(--medium); background:var(--medium-soft);}
-  .diff.Hard{color:var(--hard); background:var(--hard-soft);}
-
-  .badges{display:flex; gap:4px; justify-content:flex-end; flex-wrap:wrap; max-width:230px;}
-  .badge{
-    font-family:var(--font-mono); font-size:9.5px; padding:2.5px 6px; border-radius:5px;
-    font-weight:600; letter-spacing:0.01em; background:var(--accent-soft); color:var(--accent-ink);
-    white-space:nowrap;
+  .diff-pill{
+    font-family:var(--font-ui); font-size:11px; font-weight:700; text-align:center;
+    padding:4px 0; border-radius:20px; color:#fff; width:64px;
   }
+  .diff-pill.Easy{background:var(--easy);}
+  .diff-pill.Medium{background:var(--medium);}
+  .diff-pill.Hard{background:var(--hard);}
 
-  .empty{padding:60px 10px; text-align:center; color:var(--ink-soft); font-size:13.5px;}
+  .badges{display:flex; align-items:center; gap:4px; flex-wrap:nowrap; overflow:hidden;}
+  .badge{
+    width:24px; height:24px; border-radius:50%; background:var(--accent-soft); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-mono);
+    font-size:9px; font-weight:700; flex-shrink:0; border:1.5px solid var(--card-bg);
+  }
+  .badge.more{background:var(--icon-bg); color:var(--ink-soft);}
+
+  .icon-btn{
+    width:30px; height:30px; border-radius:50%; background:var(--icon-bg); color:var(--icon-ink);
+    display:flex; align-items:center; justify-content:center; text-decoration:none; margin:0 auto;
+  }
+  .icon-btn:hover{background:var(--accent-soft); color:var(--accent-ink);}
+  .icon-btn svg{width:14px; height:14px;}
+
+  .empty{padding:60px 10px; text-align:center; color:var(--ink-soft); font-size:13.5px; background:var(--card-bg); border-radius:var(--radius); border:1px solid var(--card-line);}
 
   .rail-toggle{display:none;}
-  .footnote{margin-top:22px; font-size:11.5px; color:var(--ink-faint); line-height:1.6; padding:0 4px;}
+  .footnote{font-size:11px; color:var(--ink-faint); line-height:1.6; padding:4px 4px 0;}
 
   @media (max-width: 900px){
-    header.hero{flex-direction:column; align-items:flex-start;}
-    .ring-wrap{align-self:stretch; justify-content:flex-start;}
-    .layout{grid-template-columns:1fr;}
-    .rail{position:static; max-height:none; display:none;}
-    .rail.open{display:flex;}
+    .shell{grid-template-columns:1fr;}
+    .sidebar{position:static; max-height:none; display:none;}
+    .sidebar.open{display:flex;}
     .rail-toggle{
       display:inline-flex; align-items:center; gap:6px; padding:9px 14px; border-radius:10px;
-      border:1px solid var(--line); background:var(--surface); color:var(--ink); font:inherit; font-size:13px;
-      cursor:pointer; margin-bottom:14px; box-shadow:var(--shadow-card);
+      border:1px solid var(--card-line); background:var(--card-bg); color:var(--ink); font:inherit; font-size:13px;
+      cursor:pointer; box-shadow:0 1px 2px rgba(20,21,31,0.05);
     }
-    .row{grid-template-columns:20px 1fr 58px;}
-    .badges{display:none;}
+    .col-head{display:none;}
+    .row{grid-template-columns:20px 1fr 64px; gap:8px;}
+    .badges, .row .icon-btn{display:none;}
+    .nav-search{display:none;}
   }
 </style>
 </head>
 <body>
-<div class="app">
 
-  <header class="hero">
-    <div class="htext">
-      <h1>DSA Sheet Tracker</h1>
-      <p>431 unique LeetCode problems pulled from 9 popular interview-prep sheets — NeetCode 150, Grind 169, Striver SDE, Fraz, Arsh, Apna College, Amazon SDE, Google-tagged questions, and Love Babbar 450. Include or exclude any sheet, filter by difficulty and topic, and track what you've solved.</p>
-    </div>
-    <div class="ring-wrap">
-      <div class="ring">
-        <svg viewBox="0 0 84 84">
-          <circle class="track" cx="42" cy="42" r="36"></circle>
-          <circle class="fill" id="ringFill" cx="42" cy="42" r="36"></circle>
-        </svg>
-        <div class="pct" id="ringPct">0%</div>
-      </div>
-      <div class="ring-label"><b id="doneCount">0</b>of 431 solved</div>
-    </div>
-  </header>
-
-  <button class="rail-toggle" id="railToggle">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-    Filters
-  </button>
-
-  <div class="layout">
-    <aside class="rail" id="rail">
-      <div>
-        <h2>Sheets <span class="sub">tap to include / exclude</span></h2>
-        <div id="listRail"></div>
-        <div class="mode-toggle" id="modeToggle">
-          <button data-mode="any" class="active">Match any</button>
-          <button data-mode="all">Match all</button>
-        </div>
-        <div class="mode-hint">"Match all" intersects included sheets — e.g. include NeetCode 150 + exclude Grind 169 finds NC150-only problems.</div>
-      </div>
-
-      <div>
-        <h2>Difficulty</h2>
-        <div class="chipbar" id="diffChips">
-          <span class="chip easy" data-diff="Easy">Easy</span>
-          <span class="chip medium" data-diff="Medium">Medium</span>
-          <span class="chip hard" data-diff="Hard">Hard</span>
-        </div>
-      </div>
-
-      <div>
-        <h2>Topic</h2>
-        <div class="topic-list" id="topicList"></div>
-      </div>
-
-      <button class="rail-reset" id="resetBtn">Reset all filters</button>
-    </aside>
-
-    <main class="main">
-      <div class="toolbar">
-        <div class="search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="searchInput" placeholder="Search problems…">
-        </div>
-        <span class="result-count" id="resultCount"></span>
-      </div>
-      <div class="active-filters" id="activeFilters"></div>
-      <div class="list-card" id="results"></div>
-      <div class="footnote">Love Babbar 450 and Apna College (Shradha Didi &amp; Aman Bhaiya) are predominantly GeeksforGeeks-based sheets — only their subset of problems that link directly to LeetCode is included here, so their counts look smaller than their published totals (450 and 375 respectively). Progress is saved locally in this browser only.</div>
-    </main>
+<nav class="topbar">
+  <div class="brand"><span class="mark">DS</span><span><b>DSA</b> Tracker</span></div>
+  <div class="nav-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" placeholder="Search problems…">
   </div>
+  <div class="nav-right">
+    <span class="streak-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 10-13h-6l0-7z"/></svg>
+      <span id="doneCount">0</span>/431 solved
+    </span>
+    <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Switch theme"></button>
+    <button class="reset-pill" id="resetBtn">Reset filters</button>
+  </div>
+</nav>
+
+<button class="rail-toggle" id="railToggle" style="margin:14px 0 0 22px;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  Filters
+</button>
+
+<div class="shell">
+  <aside class="sidebar" id="rail">
+    <div class="nav-card">
+      <h2>Sheets <span class="sub">check to include, − to exclude</span></h2>
+      <div id="listRail"></div>
+      <div class="mode-toggle" id="modeToggle">
+        <button data-mode="any" class="active">Match any</button>
+        <button data-mode="all">Match all</button>
+      </div>
+      <div class="mode-hint">"Match all" intersects included sheets — e.g. include NeetCode 150 + exclude Grind 169 finds NC150-only problems.</div>
+    </div>
+
+    <div class="nav-card">
+      <h2>Difficulty</h2>
+      <div class="chipbar" id="diffChips">
+        <span class="chip easy" data-diff="Easy">Easy</span>
+        <span class="chip medium" data-diff="Medium">Medium</span>
+        <span class="chip hard" data-diff="Hard">Hard</span>
+      </div>
+    </div>
+
+    <div class="nav-card">
+      <h2>Topic</h2>
+      <div class="topic-list" id="topicList"></div>
+    </div>
+
+    <button class="rail-reset" id="resetBtn2">Reset all filters</button>
+  </aside>
+
+  <main class="main">
+    <div class="active-filters" id="activeFilters"></div>
+    <div id="results"></div>
+    <div class="footnote">Love Babbar 450 and Apna College (Shradha Didi &amp; Aman Bhaiya) are predominantly GeeksforGeeks-based sheets — only their subset of problems that link directly to LeetCode is included here, so their counts look smaller than their published totals (450 and 375 respectively). Progress is saved locally in this browser only.</div>
+  </main>
 </div>
 
 <script>
 const PROBLEMS = [{"title":"01 Matrix","slug":"01-matrix","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/01-matrix/","lists":["grind169"]},{"title":"24 Game","slug":"24-game","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/24-game/","lists":["fraz"]},{"title":"3Sum","slug":"3sum","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/3sum/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"3Sum Closest","slug":"3sum-closest","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/3sum-closest/","lists":["grind169","fraz"]},{"title":"4Sum","slug":"4sum","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/4sum/","lists":["striver","arsh","fraz"]},{"title":"Accounts Merge","slug":"accounts-merge","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/accounts-merge/","lists":["grind169","fraz"]},{"title":"Add Binary","slug":"add-binary","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/add-binary/","lists":["grind169","arsh","fraz","google"]},{"title":"Add Strings","slug":"add-strings","difficulty":"Easy","topic":"Strings","url":"https://leetcode.com/problems/add-strings/","lists":["fraz"]},{"title":"Add Two Numbers","slug":"add-two-numbers","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/add-two-numbers/","lists":["nc150","grind169","striver","arsh","fraz"]},{"title":"Add Two Numbers II","slug":"add-two-numbers-ii","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/add-two-numbers-ii/","lists":["arsh","fraz"]},{"title":"Alien Dictionary","slug":"alien-dictionary","difficulty":"Hard","topic":"Advanced Graphs","url":"https://leetcode.com/problems/alien-dictionary/","lists":["nc150","grind169"]},{"title":"All Nodes Distance K in Binary Tree","slug":"all-nodes-distance-k-in-binary-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/","lists":["grind169","arsh","fraz"]},{"title":"All Oone Data Structure","slug":"all-oone-data-structure","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/all-oone-data-structure/","lists":["fraz"]},{"title":"All Paths from Source to Target","slug":"all-paths-from-source-to-target","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/all-paths-from-source-to-target/","lists":["fraz"]},{"title":"Angle Between Hands of a Clock","slug":"angle-between-hands-of-a-clock","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/angle-between-hands-of-a-clock/","lists":["fraz"]},{"title":"As Far from Land As Possible","slug":"as-far-from-land-as-possible","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/as-far-from-land-as-possible/","lists":["arsh","fraz"]},{"title":"Asteroid Collision","slug":"asteroid-collision","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/asteroid-collision/","lists":["grind169"]},{"title":"Backspace String Compare","slug":"backspace-string-compare","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/backspace-string-compare/","lists":["grind169","arsh","fraz"]},{"title":"Balanced Binary Tree","slug":"balanced-binary-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/balanced-binary-tree/","lists":["nc150","grind169","striver","arsh","fraz","google"]},{"title":"Basic Calculator","slug":"basic-calculator","difficulty":"Hard","topic":"Stack","url":"https://leetcode.com/problems/basic-calculator/","lists":["grind169","fraz"]},{"title":"Basic Calculator","slug":"basic-calculator-ii","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/basic-calculator-ii/","lists":["grind169","arsh","fraz","amazon"]},{"title":"Beautiful Arrangement","slug":"beautiful-arrangement","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/beautiful-arrangement/","lists":["arsh","fraz"]},{"title":"Best Time to Buy and Sell Stock","slug":"best-time-to-buy-and-sell-stock","difficulty":"Easy","topic":"Sliding Window","url":"https://leetcode.com/problems/best-time-to-buy-and-sell-stock/","lists":["nc150","grind169","shradha","striver","arsh","fraz","google","babbar"]},{"title":"Best Time to Buy and Sell Stock II","slug":"best-time-to-buy-and-sell-stock-ii","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/","lists":["arsh","fraz"]},{"title":"Best Time to Buy and Sell Stock III","slug":"best-time-to-buy-and-sell-stock-iii","difficulty":"Hard","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/","lists":["fraz","amazon"]},{"title":"Best Time to Buy and Sell Stock IV","slug":"best-time-to-buy-and-sell-stock-iv","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/","lists":["arsh","fraz"]},{"title":"Best Time to Buy and Sell Stock with Cooldown","slug":"best-time-to-buy-and-sell-stock-with-cooldown","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/","lists":["nc150"]},{"title":"Binary Search","slug":"binary-search","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/binary-search/","lists":["nc150","grind169","fraz"]},{"title":"Binary Search Tree Iterator","slug":"binary-search-tree-iterator","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/binary-search-tree-iterator/","lists":["striver","arsh","fraz","google"]},{"title":"Binary Tree Cameras","slug":"binary-tree-cameras","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-cameras/","lists":["arsh","fraz"]},{"title":"Binary Tree Inorder Traversal","slug":"binary-tree-inorder-traversal","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-inorder-traversal/","lists":["striver","google"]},{"title":"Binary Tree Level Order Traversal","slug":"binary-tree-level-order-traversal","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-level-order-traversal/","lists":["nc150","grind169","shradha","striver","arsh","fraz","google"]},{"title":"Binary Tree Maximum Path Sum","slug":"binary-tree-maximum-path-sum","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-maximum-path-sum/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Binary Tree Paths","slug":"binary-tree-paths","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-paths/","lists":["arsh","fraz"]},{"title":"Binary Tree Postorder Traversal","slug":"binary-tree-postorder-traversal","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-postorder-traversal/","lists":["striver","google"]},{"title":"Binary Tree Preorder Traversal","slug":"binary-tree-preorder-traversal","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-preorder-traversal/","lists":["striver","google"]},{"title":"Binary Tree Right Side View","slug":"binary-tree-right-side-view","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-right-side-view/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Binary Tree Zigzag Level Order Traversal","slug":"binary-tree-zigzag-level-order-traversal","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/","lists":["grind169","arsh","fraz","google"]},{"title":"Burst Balloons","slug":"burst-balloons","difficulty":"Hard","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/burst-balloons/","lists":["nc150","arsh","fraz"]},{"title":"Bus Routes","slug":"bus-routes","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/bus-routes/","lists":["grind169"]},{"title":"Candy","slug":"candy","difficulty":"Hard","topic":"Greedy","url":"https://leetcode.com/problems/candy/","lists":["fraz"]},{"title":"Capacity to Ship Packages Within D Days","slug":"capacity-to-ship-packages-within-d-days","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/","lists":["fraz","amazon"]},{"title":"Car Fleet","slug":"car-fleet","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/car-fleet/","lists":["nc150"]},{"title":"Cheapest Flights Within K Stops","slug":"cheapest-flights-within-k-stops","difficulty":"Medium","topic":"Advanced Graphs","url":"https://leetcode.com/problems/cheapest-flights-within-k-stops/","lists":["nc150","grind169","shradha","arsh","fraz","babbar"]},{"title":"Climbing Stairs","slug":"climbing-stairs","difficulty":"Easy","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/climbing-stairs/","lists":["nc150","grind169","shradha","arsh","fraz","google"]},{"title":"Clone Graph","slug":"clone-graph","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/clone-graph/","lists":["nc150","grind169","shradha","striver","fraz","amazon","babbar"]},{"title":"Coin Change","slug":"coin-change","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/coin-change/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Coin Change II","slug":"coin-change-ii","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/coin-change-ii/","lists":["nc150"]},{"title":"Combination Sum","slug":"combination-sum","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/combination-sum/","lists":["nc150","grind169","striver","fraz"]},{"title":"Combination Sum II","slug":"combination-sum-ii","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/combination-sum-ii/","lists":["nc150","striver","arsh","fraz"]},{"title":"Combination Sum IV","slug":"combination-sum-iv","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/combination-sum-iv/","lists":["grind169","shradha"]},{"title":"Combinations","slug":"combinations","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/combinations/","lists":["arsh","fraz","google"]},{"title":"Compare Version Numbers","slug":"compare-version-numbers","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/compare-version-numbers/","lists":["striver"]},{"title":"Concatenated Words","slug":"concatenated-words","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/concatenated-words/","lists":["fraz","amazon"]},{"title":"Construct Binary Tree from Inorder and Postorder Traversal","slug":"construct-binary-tree-from-inorder-and-postorder-traversal","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/","lists":["striver"]},{"title":"Construct Binary Tree from Preorder and Inorder Traversal","slug":"construct-binary-tree-from-preorder-and-inorder-traversal","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/","lists":["nc150","grind169","shradha","striver","amazon","google"]},{"title":"Construct Binary Tree from Preorder and Postorder Traversal","slug":"construct-binary-tree-from-preorder-and-postorder-traversal","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/","lists":["arsh","fraz"]},{"title":"Contain Virus","slug":"contain-virus","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/contain-virus/","lists":["fraz"]},{"title":"Container with Most Water","slug":"container-with-most-water","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/container-with-most-water/","lists":["nc150","grind169","shradha","arsh","fraz","google"]},{"title":"Contains Duplicate","slug":"contains-duplicate","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/contains-duplicate/","lists":["nc150","grind169","shradha"]},{"title":"Contains Duplicate II","slug":"contains-duplicate-ii","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/contains-duplicate-ii/","lists":["google"]},{"title":"Contiguous Array","slug":"contiguous-array","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/contiguous-array/","lists":["grind169"]},{"title":"Continuous Subarray Sum","slug":"continuous-subarray-sum","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/continuous-subarray-sum/","lists":["fraz"]},{"title":"Convert Binary Number in a Linked List to Integer","slug":"convert-binary-number-in-a-linked-list-to-integer","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/convert-binary-number-in-a-linked-list-to-integer/","lists":["arsh","fraz"]},{"title":"Convert Sorted Array to Binary Search Tree","slug":"convert-sorted-array-to-binary-search-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/","lists":["grind169","striver","arsh","fraz"]},{"title":"Convert Sorted List to Binary Search Tree","slug":"convert-sorted-list-to-binary-search-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/","lists":["google"]},{"title":"Copy List with Random Pointer","slug":"copy-list-with-random-pointer","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/copy-list-with-random-pointer/","lists":["nc150","striver","arsh","fraz"]},{"title":"Count and Say","slug":"count-and-say","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/count-and-say/","lists":["striver","google","babbar"]},{"title":"Count Complete Tree Nodes","slug":"count-complete-tree-nodes","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/count-complete-tree-nodes/","lists":["google"]},{"title":"Count Different Palindromic Subsequences","slug":"count-different-palindromic-subsequences","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/count-different-palindromic-subsequences/","lists":["arsh","fraz"]},{"title":"Count Good Nodes in Binary Tree","slug":"count-good-nodes-in-binary-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/count-good-nodes-in-binary-tree/","lists":["nc150","fraz"]},{"title":"Count Negative Numbers in a Sorted Matrix","slug":"count-negative-numbers-in-a-sorted-matrix","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/","lists":["fraz"]},{"title":"Count of Range Sum","slug":"count-of-range-sum","difficulty":"Hard","topic":"Segment Tree","url":"https://leetcode.com/problems/count-of-range-sum/","lists":["shradha","arsh"]},{"title":"Count of Smaller Numbers After Self","slug":"count-of-smaller-numbers-after-self","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/count-of-smaller-numbers-after-self/","lists":["shradha","arsh","fraz"]},{"title":"Count Square Submatrices with All Ones","slug":"count-square-submatrices-with-all-ones","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/count-square-submatrices-with-all-ones/","lists":["arsh","fraz"]},{"title":"Counting Bits","slug":"counting-bits","difficulty":"Easy","topic":"Bit Manipulation","url":"https://leetcode.com/problems/counting-bits/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Course Schedule","slug":"course-schedule","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/course-schedule/","lists":["nc150","grind169","striver","google"]},{"title":"Course Schedule II","slug":"course-schedule-ii","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/course-schedule-ii/","lists":["nc150","grind169","fraz"]},{"title":"Create Maximum Number","slug":"create-maximum-number","difficulty":"Hard","topic":"Greedy","url":"https://leetcode.com/problems/create-maximum-number/","lists":["fraz"]},{"title":"Create Sorted Array Through Instructions","slug":"create-sorted-array-through-instructions","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/create-sorted-array-through-instructions/","lists":["shradha"]},{"title":"Critical Connections in a Network","slug":"critical-connections-in-a-network","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/critical-connections-in-a-network/","lists":["arsh","fraz","amazon"]},{"title":"Cut Off Trees For Golf Event","slug":"cut-off-trees-for-golf-event","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/cut-off-trees-for-golf-event/","lists":["fraz"]},{"title":"Daily Temperatures","slug":"daily-temperatures","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/daily-temperatures/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Decode String","slug":"decode-string","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/decode-string/","lists":["grind169","arsh","fraz","amazon"]},{"title":"Decode Ways","slug":"decode-ways","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/decode-ways/","lists":["nc150","grind169","shradha","arsh","fraz"]},{"title":"Delete and Earn","slug":"delete-and-earn","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/delete-and-earn/","lists":["arsh","fraz"]},{"title":"Deletion of a node in a BST","slug":"delete-node-in-a-bst","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/delete-node-in-a-bst/","lists":["shradha","babbar"]},{"title":"Delete Node in a Linked List","slug":"delete-node-in-a-linked-list","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/delete-node-in-a-linked-list/","lists":["striver","fraz","google"]},{"title":"Design Add and Search Words Data Structure","slug":"design-add-and-search-words-data-structure","difficulty":"Medium","topic":"Tries","url":"https://leetcode.com/problems/design-add-and-search-words-data-structure/","lists":["nc150","grind169","arsh"]},{"title":"Design Browser History","slug":"design-browser-history","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/design-browser-history/","lists":["fraz"]},{"title":"Design Hashmap","slug":"design-hashmap","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/design-hashmap/","lists":["fraz"]},{"title":"Design Hashset","slug":"design-hashset","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/design-hashset/","lists":["fraz"]},{"title":"Design Hit Counter","slug":"design-hit-counter","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/design-hit-counter/","lists":["grind169"]},{"title":"Design In-Memory File System","slug":"design-in-memory-file-system","difficulty":"Hard","topic":"Design","url":"https://leetcode.com/problems/design-in-memory-file-system/","lists":["grind169"]},{"title":"Design Twitter","slug":"design-twitter","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/design-twitter/","lists":["nc150","fraz"]},{"title":"Design Underground System","slug":"design-underground-system","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/design-underground-system/","lists":["fraz"]},{"title":"Detect Squares","slug":"detect-squares","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/detect-squares/","lists":["nc150"]},{"title":"Diameter of Binary Tree","slug":"diameter-of-binary-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/diameter-of-binary-tree/","lists":["nc150","grind169","striver","arsh","fraz","amazon"]},{"title":"Distinct Subsequences","slug":"distinct-subsequences","difficulty":"Hard","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/distinct-subsequences/","lists":["nc150","arsh","fraz"]},{"title":"Divide Two Integers","slug":"divide-two-integers","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/divide-two-integers/","lists":["fraz"]},{"title":"Divisor Game","slug":"divisor-game","difficulty":"Easy","topic":"Dynamic Programming","url":"https://leetcode.com/problems/divisor-game/","lists":["fraz"]},{"title":"Dungeon Game","slug":"dungeon-game","difficulty":"Hard","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/dungeon-game/","lists":["google"]},{"title":"Edit Distance","slug":"edit-distance","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/edit-distance/","lists":["nc150","striver","fraz","google"]},{"title":"Employee Free Time","slug":"employee-free-time","difficulty":"Hard","topic":"Intervals","url":"https://leetcode.com/problems/employee-free-time/","lists":["grind169"]},{"title":"Employee Importance","slug":"employee-importance","difficulty":"Easy","topic":"Graphs","url":"https://leetcode.com/problems/employee-importance/","lists":["fraz"]},{"title":"Encode and Decode Strings","slug":"encode-and-decode-strings","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/encode-and-decode-strings/","lists":["nc150","grind169"]},{"title":"Encode and Decode Tinyurl","slug":"encode-and-decode-tinyurl","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/encode-and-decode-tinyurl/","lists":["fraz"]},{"title":"Evaluate Division","slug":"evaluate-division","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/evaluate-division/","lists":["arsh","fraz"]},{"title":"Evaluate Reverse Polish Notation","slug":"evaluate-reverse-polish-notation","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/evaluate-reverse-polish-notation/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Excel Sheet Column Title","slug":"excel-sheet-column-title","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/excel-sheet-column-title/","lists":["arsh","fraz"]},{"title":"Fibonacci Number","slug":"fibonacci-number","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/fibonacci-number/","lists":["fraz"]},{"title":"Find All Anagrams in a String","slug":"find-all-anagrams-in-a-string","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/find-all-anagrams-in-a-string/","lists":["grind169"]},{"title":"Find All Duplicates in an Array","slug":"find-all-duplicates-in-an-array","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/find-all-duplicates-in-an-array/","lists":["arsh","fraz"]},{"title":"Find Eventual Safe States","slug":"find-eventual-safe-states","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/find-eventual-safe-states/","lists":["arsh","fraz"]},{"title":"Find First and Last Position of Element in Sorted Array","slug":"find-first-and-last-position-of-element-in-sorted-array","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/","lists":["fraz","google"]},{"title":"Find K Closest Elements","slug":"find-k-closest-elements","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/find-k-closest-elements/","lists":["grind169"]},{"title":"Find Median from Data Stream","slug":"find-median-from-data-stream","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/find-median-from-data-stream/","lists":["nc150","grind169","shradha","striver","fraz"]},{"title":"Find Minimum in Rotated Sorted Array","slug":"find-minimum-in-rotated-sorted-array","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/","lists":["nc150","grind169","shradha","google"]},{"title":"Find Peak Element","slug":"find-peak-element","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/find-peak-element/","lists":["arsh","fraz","google"]},{"title":"Find Pivot Index","slug":"find-pivot-index","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/find-pivot-index/","lists":["fraz"]},{"title":"Find the City with the Smallest Number of Neighbors at a Threshold Distance","slug":"find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/","lists":["arsh","fraz"]},{"title":"Find the Duplicate Number","slug":"find-the-duplicate-number","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/find-the-duplicate-number/","lists":["nc150","grind169","striver","arsh","fraz","amazon","babbar"]},{"title":"Find the Most Competitive Subsequence","slug":"find-the-most-competitive-subsequence","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/find-the-most-competitive-subsequence/","lists":["arsh","fraz"]},{"title":"Find the Town Judge","slug":"find-the-town-judge","difficulty":"Easy","topic":"Graphs","url":"https://leetcode.com/problems/find-the-town-judge/","lists":["fraz"]},{"title":"First Bad Version","slug":"first-bad-version","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/first-bad-version/","lists":["grind169"]},{"title":"First Missing Positive","slug":"first-missing-positive","difficulty":"Hard","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/first-missing-positive/","lists":["grind169","fraz","amazon","google"]},{"title":"Flatten a Multilevel Doubly Linked List","slug":"flatten-a-multilevel-doubly-linked-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/","lists":["arsh","fraz"]},{"title":"Flatten Binary Tree to Linked List","slug":"flatten-binary-tree-to-linked-list","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/flatten-binary-tree-to-linked-list/","lists":["striver","arsh","fraz","google"]},{"title":"Flatten Nested List Iterator","slug":"flatten-nested-list-iterator","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/flatten-nested-list-iterator/","lists":["arsh","fraz"]},{"title":"Flood Fill","slug":"flood-fill","difficulty":"Easy","topic":"Graphs","url":"https://leetcode.com/problems/flood-fill/","lists":["grind169","shradha","striver","arsh","babbar"]},{"title":"Frog Jump","slug":"frog-jump","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/frog-jump/","lists":["arsh","fraz"]},{"title":"Furthest Building You Can Reach","slug":"furthest-building-you-can-reach","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/furthest-building-you-can-reach/","lists":["arsh","fraz"]},{"title":"Game of Life","slug":"game-of-life","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/game-of-life/","lists":["arsh","fraz"]},{"title":"Gas Station","slug":"gas-station","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/gas-station/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Generate Parentheses","slug":"generate-parentheses","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/generate-parentheses/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Graph Valid Tree","slug":"graph-valid-tree","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/graph-valid-tree/","lists":["nc150","grind169"]},{"title":"Group Anagrams","slug":"group-anagrams","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/group-anagrams/","lists":["nc150","grind169","shradha","arsh","fraz"]},{"title":"Grumpy Bookstore Owner","slug":"grumpy-bookstore-owner","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/grumpy-bookstore-owner/","lists":["fraz"]},{"title":"Hand of Straights","slug":"hand-of-straights","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/hand-of-straights/","lists":["nc150"]},{"title":"Happy Number","slug":"happy-number","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/happy-number/","lists":["nc150","arsh","fraz"]},{"title":"House Robber","slug":"house-robber","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/house-robber/","lists":["nc150","grind169","shradha","fraz","google"]},{"title":"House Robber II","slug":"house-robber-ii","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/house-robber-ii/","lists":["nc150","shradha"]},{"title":"House Robber III","slug":"house-robber-iii","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/house-robber-iii/","lists":["fraz","amazon"]},{"title":"Implement Queue using Stacks","slug":"implement-queue-using-stacks","difficulty":"Easy","topic":"Stack","url":"https://leetcode.com/problems/implement-queue-using-stacks/","lists":["grind169","striver","arsh","fraz"]},{"title":"Implement Stack Using Queues","slug":"implement-stack-using-queues","difficulty":"Easy","topic":"Stack","url":"https://leetcode.com/problems/implement-stack-using-queues/","lists":["shradha","striver","arsh","fraz"]},{"title":"Implement strStr()","slug":"implement-strstr","difficulty":"Easy","topic":"Strings","url":"https://leetcode.com/problems/implement-strstr/","lists":["striver","arsh","fraz","amazon"]},{"title":"Implement Trie Prefix Tree","slug":"implement-trie-prefix-tree","difficulty":"Medium","topic":"Tries","url":"https://leetcode.com/problems/implement-trie-prefix-tree/","lists":["nc150","grind169","striver","google"]},{"title":"Inorder Successor in BST","slug":"inorder-successor-in-bst","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/inorder-successor-in-bst/","lists":["grind169"]},{"title":"Insert Delete GetRandom O(1)","slug":"insert-delete-getrandom-o1","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/insert-delete-getrandom-o1/","lists":["grind169","fraz"]},{"title":"Insert Delete Getrandom O(1) Duplicates Allowed","slug":"insert-delete-getrandom-o1-duplicates-allowed","difficulty":"Hard","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/insert-delete-getrandom-o1-duplicates-allowed/","lists":["arsh","fraz"]},{"title":"Insert Interval","slug":"insert-interval","difficulty":"Medium","topic":"Intervals","url":"https://leetcode.com/problems/insert-interval/","lists":["nc150","grind169"]},{"title":"Integer Break","slug":"integer-break","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/integer-break/","lists":["fraz"]},{"title":"Integer to English Words","slug":"integer-to-english-words","difficulty":"Hard","topic":"Strings","url":"https://leetcode.com/problems/integer-to-english-words/","lists":["arsh","fraz","amazon"]},{"title":"Integer to Roman","slug":"integer-to-roman","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/integer-to-roman/","lists":["arsh","fraz"]},{"title":"Interleaving String","slug":"interleaving-string","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/interleaving-string/","lists":["nc150"]},{"title":"Intersection of Two Linked Lists","slug":"intersection-of-two-linked-lists","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/intersection-of-two-linked-lists/","lists":["striver","arsh","fraz"]},{"title":"Invalid Transactions","slug":"invalid-transactions","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/invalid-transactions/","lists":["fraz"]},{"title":"Invert Binary Tree","slug":"invert-binary-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/invert-binary-tree/","lists":["nc150","grind169","shradha","arsh","fraz","google"]},{"title":"Is Graph Bipartite","slug":"is-graph-bipartite","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/is-graph-bipartite/","lists":["striver","fraz"]},{"title":"Isomorphic Strings","slug":"isomorphic-strings","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/isomorphic-strings/","lists":["google"]},{"title":"Jump Game","slug":"jump-game","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/jump-game/","lists":["nc150","grind169","shradha","arsh","fraz","google"]},{"title":"Jump Game II","slug":"jump-game-ii","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/jump-game-ii/","lists":["nc150","fraz"]},{"title":"K Closest Points to Origin","slug":"k-closest-points-to-origin","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/k-closest-points-to-origin/","lists":["nc150","grind169","arsh","fraz"]},{"title":"K Diff Pairs in an Array","slug":"k-diff-pairs-in-an-array","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/k-diff-pairs-in-an-array/","lists":["fraz","amazon"]},{"title":"K Th Smallest Prime Fraction","slug":"k-th-smallest-prime-fraction","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/k-th-smallest-prime-fraction/","lists":["fraz"]},{"title":"Keys and Rooms","slug":"keys-and-rooms","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/keys-and-rooms/","lists":["fraz"]},{"title":"Knight Dialer","slug":"knight-dialer","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/knight-dialer/","lists":["arsh","fraz","amazon"]},{"title":"Koko Eating Bananas","slug":"koko-eating-bananas","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/koko-eating-bananas/","lists":["nc150"]},{"title":"Kth Largest Element in a Stream","slug":"kth-largest-element-in-a-stream","difficulty":"Easy","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/kth-largest-element-in-a-stream/","lists":["nc150","striver"]},{"title":"Kth Largest Element in an Array","slug":"kth-largest-element-in-an-array","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/kth-largest-element-in-an-array/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Kth Smallest Element in a BST","slug":"kth-smallest-element-in-a-bst","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/kth-smallest-element-in-a-bst/","lists":["nc150","grind169","shradha","striver","arsh","fraz","google"]},{"title":"Kth Smallest Element in a Sorted Matrix","slug":"kth-smallest-element-in-a-sorted-matrix","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/","lists":["arsh","fraz"]},{"title":"Largest Number","slug":"largest-number","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/largest-number/","lists":["grind169"]},{"title":"Largest Rectangle in Histogram","slug":"largest-rectangle-in-histogram","difficulty":"Hard","topic":"Stack","url":"https://leetcode.com/problems/largest-rectangle-in-histogram/","lists":["nc150","grind169","striver","arsh","fraz","google"]},{"title":"Last Stone Weight","slug":"last-stone-weight","difficulty":"Easy","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/last-stone-weight/","lists":["nc150"]},{"title":"Letter Combinations of a Phone Number","slug":"letter-combinations-of-a-phone-number","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/letter-combinations-of-a-phone-number/","lists":["nc150","grind169","fraz"]},{"title":"LFU Cache","slug":"lfu-cache","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/lfu-cache/","lists":["striver","fraz"]},{"title":"Linked List Cycle","slug":"linked-list-cycle","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/linked-list-cycle/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Linked List Cycle II","slug":"linked-list-cycle-ii","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/linked-list-cycle-ii/","lists":["striver"]},{"title":"Longest Arithmetic Subsequence","slug":"longest-arithmetic-subsequence","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/longest-arithmetic-subsequence/","lists":["fraz","amazon"]},{"title":"Longest Common Prefix","slug":"longest-common-prefix","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/longest-common-prefix/","lists":["grind169","shradha","striver","arsh","fraz","google","babbar"]},{"title":"Longest Common Subsequence","slug":"longest-common-subsequence","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/longest-common-subsequence/","lists":["nc150","shradha","striver"]},{"title":"Longest Consecutive Sequence","slug":"longest-consecutive-sequence","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/longest-consecutive-sequence/","lists":["nc150","grind169","striver"]},{"title":"Longest Increasing Path in a Matrix","slug":"longest-increasing-path-in-a-matrix","difficulty":"Hard","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/longest-increasing-path-in-a-matrix/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Longest Increasing Subsequence","slug":"longest-increasing-subsequence","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/longest-increasing-subsequence/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Longest Palindrome","slug":"longest-palindrome","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/longest-palindrome/","lists":["grind169"]},{"title":"Longest Palindromic Substring","slug":"longest-palindromic-substring","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/longest-palindromic-substring/","lists":["nc150","grind169","shradha","striver","fraz","google","babbar"]},{"title":"Longest Repeating Character Replacement","slug":"longest-repeating-character-replacement","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/longest-repeating-character-replacement/","lists":["nc150","grind169","shradha","arsh","fraz","amazon"]},{"title":"Longest Substring with at Least K Repeating Characters","slug":"longest-substring-with-at-least-k-repeating-characters","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/","lists":["fraz"]},{"title":"Longest Substring Without Repeating Characters","slug":"longest-substring-without-repeating-characters","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/longest-substring-without-repeating-characters/","lists":["nc150","grind169","shradha","striver","fraz","google"]},{"title":"Longest Valid Parentheses","slug":"longest-valid-parentheses","difficulty":"Hard","topic":"Stack","url":"https://leetcode.com/problems/longest-valid-parentheses/","lists":["grind169","fraz","amazon"]},{"title":"Lowest Common Ancestor of a Binary Search Tree","slug":"lowest-common-ancestor-of-a-binary-search-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Lowest Common Ancestor of a Binary Tree","slug":"lowest-common-ancestor-of-a-binary-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/","lists":["grind169","striver","arsh","fraz","amazon"]},{"title":"LRU Cache","slug":"lru-cache","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/lru-cache/","lists":["nc150","grind169","striver","fraz","amazon","google"]},{"title":"Majority Element","slug":"majority-element","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/majority-element/","lists":["grind169","striver","arsh","fraz","amazon","google"]},{"title":"Majority Element II","slug":"majority-element-ii","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/majority-element-ii/","lists":["striver"]},{"title":"Making a Large Island","slug":"making-a-large-island","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/making-a-large-island/","lists":["arsh","fraz"]},{"title":"Max Area of Island","slug":"max-area-of-island","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/max-area-of-island/","lists":["nc150","fraz"]},{"title":"Max Consecutive Ones","slug":"max-consecutive-ones","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/max-consecutive-ones/","lists":["striver"]},{"title":"Max Consecutive Ones III","slug":"max-consecutive-ones-iii","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/max-consecutive-ones-iii/","lists":["fraz"]},{"title":"Max Points On a Line","slug":"max-points-on-a-line","difficulty":"Hard","topic":"Math & Geometry","url":"https://leetcode.com/problems/max-points-on-a-line/","lists":["arsh","fraz","amazon"]},{"title":"Max Sum of Rectangle No Larger Than K","slug":"max-sum-of-rectangle-no-larger-than-k","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/","lists":["fraz"]},{"title":"Max Value of Equation","slug":"max-value-of-equation","difficulty":"Hard","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/max-value-of-equation/","lists":["arsh","fraz","amazon"]},{"title":"Maximal Rectangle","slug":"maximal-rectangle","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/maximal-rectangle/","lists":["arsh","fraz"]},{"title":"Maximal Square","slug":"maximal-square","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/maximal-square/","lists":["grind169","arsh","fraz","google"]},{"title":"Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts","slug":"maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts/","lists":["fraz"]},{"title":"Maximum Depth of Binary Tree","slug":"maximum-depth-of-binary-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/maximum-depth-of-binary-tree/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Maximum Frequency Stack","slug":"maximum-frequency-stack","difficulty":"Hard","topic":"Stack","url":"https://leetcode.com/problems/maximum-frequency-stack/","lists":["grind169"]},{"title":"Maximum Length of Pair Chain","slug":"maximum-length-of-pair-chain","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/maximum-length-of-pair-chain/","lists":["shradha","babbar"]},{"title":"Maximum Length of Repeated Subarray","slug":"maximum-length-of-repeated-subarray","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/maximum-length-of-repeated-subarray/","lists":["arsh","fraz"]},{"title":"Maximum Number of Events That Can Be Attended","slug":"maximum-number-of-events-that-can-be-attended","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/","lists":["fraz"]},{"title":"Maximum Number of Non Overlapping Substrings","slug":"maximum-number-of-non-overlapping-substrings","difficulty":"Hard","topic":"Greedy","url":"https://leetcode.com/problems/maximum-number-of-non-overlapping-substrings/","lists":["striver"]},{"title":"Maximum Number of Visible Points","slug":"maximum-number-of-visible-points","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/maximum-number-of-visible-points/","lists":["arsh","fraz"]},{"title":"Maximum Points You Can Obtain from Cards","slug":"maximum-points-you-can-obtain-from-cards","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/","lists":["arsh","fraz"]},{"title":"Maximum Product of Three Numbers","slug":"maximum-product-of-three-numbers","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/maximum-product-of-three-numbers/","lists":["arsh","fraz"]},{"title":"Maximum Product Subarray","slug":"maximum-product-subarray","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/maximum-product-subarray/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Maximum Profit in Job Scheduling","slug":"maximum-profit-in-job-scheduling","difficulty":"Hard","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/maximum-profit-in-job-scheduling/","lists":["grind169"]},{"title":"Maximum Subarray","slug":"maximum-subarray","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/maximum-subarray/","lists":["nc150","grind169","shradha","striver","fraz","amazon","google"]},{"title":"Maximum Sum BST in Binary Tree","slug":"maximum-sum-bst-in-binary-tree","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/","lists":["striver"]},{"title":"Maximum Width of Binary Tree","slug":"maximum-width-of-binary-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/maximum-width-of-binary-tree/","lists":["grind169","arsh","fraz"]},{"title":"Maximum XOR of Two Numbers in an Array","slug":"maximum-xor-of-two-numbers-in-an-array","difficulty":"Medium","topic":"Tries","url":"https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/","lists":["striver"]},{"title":"Maximum XOR with an Element from Array","slug":"maximum-xor-with-an-element-from-array","difficulty":"Hard","topic":"Tries","url":"https://leetcode.com/problems/maximum-xor-with-an-element-from-array/","lists":["striver"]},{"title":"Median of Two Sorted Arrays","slug":"median-of-two-sorted-arrays","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/median-of-two-sorted-arrays/","lists":["nc150","grind169","striver","fraz","google"]},{"title":"Meeting Rooms","slug":"meeting-rooms","difficulty":"Easy","topic":"Intervals","url":"https://leetcode.com/problems/meeting-rooms/","lists":["nc150","grind169"]},{"title":"Meeting Rooms II","slug":"meeting-rooms-ii","difficulty":"Medium","topic":"Intervals","url":"https://leetcode.com/problems/meeting-rooms-ii/","lists":["nc150","grind169"]},{"title":"Merge Intervals","slug":"merge-intervals","difficulty":"Medium","topic":"Intervals","url":"https://leetcode.com/problems/merge-intervals/","lists":["nc150","grind169","striver","fraz","babbar"]},{"title":"Merge k Sorted Lists","slug":"merge-k-sorted-lists","difficulty":"Hard","topic":"Linked List","url":"https://leetcode.com/problems/merge-k-sorted-lists/","lists":["nc150","grind169","shradha","arsh","fraz","google"]},{"title":"Merge Sorted Array","slug":"merge-sorted-array","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/merge-sorted-array/","lists":["striver","arsh","fraz","google"]},{"title":"Merge Triplets to Form Target Triplet","slug":"merge-triplets-to-form-target-triplet","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/merge-triplets-to-form-target-triplet/","lists":["nc150"]},{"title":"Merge Two Binary Trees","slug":"merge-two-binary-trees","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/merge-two-binary-trees/","lists":["arsh","fraz"]},{"title":"Merge Two Sorted Lists","slug":"merge-two-sorted-lists","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/merge-two-sorted-lists/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Middle of the Linked List","slug":"middle-of-the-linked-list","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/middle-of-the-linked-list/","lists":["grind169","striver","arsh","fraz","babbar"]},{"title":"Min Cost Climbing Stairs","slug":"min-cost-climbing-stairs","difficulty":"Easy","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/min-cost-climbing-stairs/","lists":["nc150"]},{"title":"Min Cost to Connect All Points","slug":"min-cost-to-connect-all-points","difficulty":"Medium","topic":"Advanced Graphs","url":"https://leetcode.com/problems/min-cost-to-connect-all-points/","lists":["nc150"]},{"title":"Min Stack","slug":"min-stack","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/min-stack/","lists":["nc150","grind169","striver","fraz"]},{"title":"Minimum Absolute Difference in BST","slug":"minimum-absolute-difference-in-bst","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/minimum-absolute-difference-in-bst/","lists":["arsh","fraz"]},{"title":"Minimum Cost to Cut a Stick","slug":"minimum-cost-to-cut-a-stick","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/minimum-cost-to-cut-a-stick/","lists":["striver","fraz","amazon"]},{"title":"Minimum Cost to Hire K Workers","slug":"minimum-cost-to-hire-k-workers","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/minimum-cost-to-hire-k-workers/","lists":["arsh","fraz"]},{"title":"Minimum Cost to Merge Stones","slug":"minimum-cost-to-merge-stones","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/minimum-cost-to-merge-stones/","lists":["arsh","fraz"]},{"title":"Minimum Cost Tree from Leaf Values","slug":"minimum-cost-tree-from-leaf-values","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/","lists":["arsh","fraz"]},{"title":"Minimum Deletion Cost to Avoid Repeating Letters","slug":"minimum-deletion-cost-to-avoid-repeating-letters","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/minimum-deletion-cost-to-avoid-repeating-letters/","lists":["arsh","fraz"]},{"title":"Minimum Deletions to Make Character Frequencies Unique","slug":"minimum-deletions-to-make-character-frequencies-unique","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/minimum-deletions-to-make-character-frequencies-unique/","lists":["arsh","fraz"]},{"title":"Minimum Difficulty of a Job Schedule","slug":"minimum-difficulty-of-a-job-schedule","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/","lists":["fraz","amazon"]},{"title":"Minimum Height Trees","slug":"minimum-height-trees","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/minimum-height-trees/","lists":["grind169"]},{"title":"Minimum Insertion Steps to Make a String Palindrome","slug":"minimum-insertion-steps-to-make-a-string-palindrome","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/","lists":["arsh","fraz"]},{"title":"Minimum Interval to Include Each Query","slug":"minimum-interval-to-include-each-query","difficulty":"Hard","topic":"Intervals","url":"https://leetcode.com/problems/minimum-interval-to-include-each-query/","lists":["nc150"]},{"title":"Minimum Jumps to Reach Home","slug":"minimum-jumps-to-reach-home","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/minimum-jumps-to-reach-home/","lists":["fraz"]},{"title":"Minimum Knight Moves","slug":"minimum-knight-moves","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/minimum-knight-moves/","lists":["grind169"]},{"title":"Minimum Limit of Balls in a Bag","slug":"minimum-limit-of-balls-in-a-bag","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/","lists":["fraz"]},{"title":"Minimum Moves to Equal Array Elements","slug":"minimum-moves-to-equal-array-elements","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/minimum-moves-to-equal-array-elements/","lists":["arsh","fraz"]},{"title":"Minimum Number of Refueling Stops","slug":"minimum-number-of-refueling-stops","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/minimum-number-of-refueling-stops/","lists":["arsh","fraz"]},{"title":"Minimum Number of Taps to Open to Water a Garden","slug":"minimum-number-of-taps-to-open-to-water-a-garden","difficulty":"Hard","topic":"Greedy","url":"https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/","lists":["fraz"]},{"title":"Minimum Path Sum","slug":"minimum-path-sum","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/minimum-path-sum/","lists":["striver","arsh"]},{"title":"Minimum Remove to Make Valid Parentheses","slug":"minimum-remove-to-make-valid-parentheses","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/","lists":["fraz","amazon"]},{"title":"Minimum Window Substring","slug":"minimum-window-substring","difficulty":"Hard","topic":"Sliding Window","url":"https://leetcode.com/problems/minimum-window-substring/","lists":["nc150","grind169","shradha","arsh","fraz","amazon"]},{"title":"Missing Number","slug":"missing-number","difficulty":"Easy","topic":"Bit Manipulation","url":"https://leetcode.com/problems/missing-number/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Missing Ranges","slug":"missing-ranges","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/missing-ranges/","lists":["google"]},{"title":"Most Stones Removed with Same Row or Column","slug":"most-stones-removed-with-same-row-or-column","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/","lists":["arsh","fraz"]},{"title":"Move Zeroes","slug":"move-zeroes","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/move-zeroes/","lists":["grind169","arsh","fraz"]},{"title":"Multiply Strings","slug":"multiply-strings","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/multiply-strings/","lists":["nc150","fraz"]},{"title":"N-Queens","slug":"n-queens","difficulty":"Hard","topic":"Backtracking","url":"https://leetcode.com/problems/n-queens/","lists":["nc150","grind169","striver","arsh","fraz","google"]},{"title":"Network Delay Time","slug":"network-delay-time","difficulty":"Medium","topic":"Advanced Graphs","url":"https://leetcode.com/problems/network-delay-time/","lists":["nc150","fraz"]},{"title":"Next Greater Element I","slug":"next-greater-element-i","difficulty":"Easy","topic":"Stack","url":"https://leetcode.com/problems/next-greater-element-i/","lists":["striver","arsh","fraz"]},{"title":"Next Permutation","slug":"next-permutation","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/next-permutation/","lists":["grind169","shradha","striver","fraz","babbar"]},{"title":"Non-overlapping Intervals","slug":"non-overlapping-intervals","difficulty":"Medium","topic":"Intervals","url":"https://leetcode.com/problems/non-overlapping-intervals/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Number of 1 Bits","slug":"number-of-1-bits","difficulty":"Easy","topic":"Bit Manipulation","url":"https://leetcode.com/problems/number-of-1-bits/","lists":["nc150","grind169"]},{"title":"Number of Closed Islands","slug":"number-of-closed-islands","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/number-of-closed-islands/","lists":["fraz"]},{"title":"Number of Connected Components in an Undirected Graph","slug":"number-of-connected-components-in-an-undirected-graph","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/","lists":["nc150","grind169"]},{"title":"Number of Digit One","slug":"number-of-digit-one","difficulty":"Hard","topic":"Math & Geometry","url":"https://leetcode.com/problems/number-of-digit-one/","lists":["fraz"]},{"title":"Number of Islands","slug":"number-of-islands","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/number-of-islands/","lists":["nc150","grind169","striver","arsh","fraz","google"]},{"title":"Making wired Connections","slug":"number-of-operations-to-make-network-connected","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/number-of-operations-to-make-network-connected/","lists":["shradha","arsh","fraz","babbar"]},{"title":"Number of Provinces","slug":"number-of-provinces","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/number-of-provinces/","lists":["fraz"]},{"title":"Number of Ways to Reconstruct a Tree","slug":"number-of-ways-to-reconstruct-a-tree","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/number-of-ways-to-reconstruct-a-tree/","lists":["fraz"]},{"title":"Odd Even Linked List","slug":"odd-even-linked-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/odd-even-linked-list/","lists":["grind169","fraz"]},{"title":"Ones and Zeroes","slug":"ones-and-zeroes","difficulty":"Easy","topic":"Dynamic Programming","url":"https://leetcode.com/problems/ones-and-zeroes/","lists":["striver","arsh"]},{"title":"Online Stock Span","slug":"online-stock-span","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/online-stock-span/","lists":["striver","arsh","fraz"]},{"title":"Pacific Atlantic Water Flow","slug":"pacific-atlantic-water-flow","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/pacific-atlantic-water-flow/","lists":["nc150","grind169"]},{"title":"Pairs of Songs with Total Durations Divisible By 60","slug":"pairs-of-songs-with-total-durations-divisible-by-60","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/pairs-of-songs-with-total-durations-divisible-by-60/","lists":["fraz"]},{"title":"Palindrome Linked List","slug":"palindrome-linked-list","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/palindrome-linked-list/","lists":["grind169","striver","arsh","fraz"]},{"title":"Palindrome Number","slug":"palindrome-number","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/palindrome-number/","lists":["grind169","arsh","fraz"]},{"title":"Palindrome Pairs","slug":"palindrome-pairs","difficulty":"Hard","topic":"Tries","url":"https://leetcode.com/problems/palindrome-pairs/","lists":["grind169","arsh"]},{"title":"Palindrome Partitioning","slug":"palindrome-partitioning","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/palindrome-partitioning/","lists":["nc150","striver","arsh","fraz"]},{"title":"Palindromic Substrings","slug":"palindromic-substrings","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/palindromic-substrings/","lists":["nc150","shradha","fraz"]},{"title":"Partition Equal Subset Sum","slug":"partition-equal-subset-sum","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/partition-equal-subset-sum/","lists":["nc150","grind169","striver"]},{"title":"Partition Labels","slug":"partition-labels","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/partition-labels/","lists":["nc150","fraz"]},{"title":"Partition List","slug":"partition-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/partition-list/","lists":["arsh","fraz"]},{"title":"Pascal's Triangle","slug":"pascals-triangle","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/pascals-triangle/","lists":["striver","fraz","google"]},{"title":"Pascal's Triangle II","slug":"pascals-triangle-ii","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/pascals-triangle-ii/","lists":["google"]},{"title":"Path Sum","slug":"path-sum","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/path-sum/","lists":["arsh","fraz"]},{"title":"Path Sum II","slug":"path-sum-ii","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/path-sum-ii/","lists":["grind169"]},{"title":"Path Sum III","slug":"path-sum-iii","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/path-sum-iii/","lists":["grind169","arsh","fraz"]},{"title":"Peak Index in a Mountain Array","slug":"peak-index-in-a-mountain-array","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/peak-index-in-a-mountain-array/","lists":["fraz"]},{"title":"Permutation in String","slug":"permutation-in-string","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/permutation-in-string/","lists":["nc150"]},{"title":"Permutation Sequence","slug":"permutation-sequence","difficulty":"Hard","topic":"Math & Geometry","url":"https://leetcode.com/problems/permutation-sequence/","lists":["striver","fraz","google"]},{"title":"Permutations","slug":"permutations","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/permutations/","lists":["nc150","grind169","striver","amazon","google"]},{"title":"Permutations II","slug":"permutations-ii","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/permutations-ii/","lists":["arsh","fraz"]},{"title":"Plus One","slug":"plus-one","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/plus-one/","lists":["nc150","google"]},{"title":"Populating Next Right Pointers in Each Node","slug":"populating-next-right-pointers-in-each-node","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/populating-next-right-pointers-in-each-node/","lists":["striver","arsh","fraz"]},{"title":"Possible Bipartition","slug":"possible-bipartition","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/possible-bipartition/","lists":["fraz"]},{"title":"Power of Two","slug":"power-of-two","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/power-of-two/","lists":["arsh","fraz","amazon","google"]},{"title":"Pow(x, n)","slug":"powx-n","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/powx-n/","lists":["nc150","grind169","striver","fraz","google"]},{"title":"Product of Array Except Self","slug":"product-of-array-except-self","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/product-of-array-except-self/","lists":["nc150","grind169","shradha","fraz","amazon"]},{"title":"Random Pick with Weight","slug":"random-pick-with-weight","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/random-pick-with-weight/","lists":["grind169"]},{"title":"Range Sum of BST","slug":"range-sum-of-bst","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/range-sum-of-bst/","lists":["arsh","fraz"]},{"title":"Range Sum Query 2D Immutable","slug":"range-sum-query-2d-immutable","difficulty":"Medium","topic":"Dynamic Programming","url":"https://leetcode.com/problems/range-sum-query-2d-immutable/","lists":["arsh","fraz"]},{"title":"Range Sum Query Immutable","slug":"range-sum-query-immutable","difficulty":"Hard","topic":"Segment Tree","url":"https://leetcode.com/problems/range-sum-query-immutable/","lists":["shradha","arsh"]},{"title":"Range Sum Query Mutable","slug":"range-sum-query-mutable","difficulty":"Hard","topic":"Segment Tree","url":"https://leetcode.com/problems/range-sum-query-mutable/","lists":["shradha","arsh"]},{"title":"Ransom Note","slug":"ransom-note","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/ransom-note/","lists":["grind169"]},{"title":"Reachable Nodes in Subdivided Graph","slug":"reachable-nodes-in-subdivided-graph","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/reachable-nodes-in-subdivided-graph/","lists":["fraz"]},{"title":"Reconstruct Itinerary","slug":"reconstruct-itinerary","difficulty":"Hard","topic":"Advanced Graphs","url":"https://leetcode.com/problems/reconstruct-itinerary/","lists":["nc150"]},{"title":"Recover Binary Search Tree","slug":"recover-binary-search-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/recover-binary-search-tree/","lists":["arsh","fraz"]},{"title":"Redundant Connection","slug":"redundant-connection","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/redundant-connection/","lists":["nc150","arsh","fraz","amazon"]},{"title":"Redundant Connection II","slug":"redundant-connection-ii","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/redundant-connection-ii/","lists":["fraz","amazon"]},{"title":"Regions Cut By Slashes","slug":"regions-cut-by-slashes","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/regions-cut-by-slashes/","lists":["fraz"]},{"title":"Regular Expression Matching","slug":"regular-expression-matching","difficulty":"Hard","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/regular-expression-matching/","lists":["nc150","fraz","amazon"]},{"title":"Remove Boxes","slug":"remove-boxes","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/remove-boxes/","lists":["arsh","fraz"]},{"title":"Remove Duplicates from Sorted Array","slug":"remove-duplicates-from-sorted-array","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/remove-duplicates-from-sorted-array/","lists":["striver","arsh","fraz","google"]},{"title":"Remove Duplicates from Sorted Array II","slug":"remove-duplicates-from-sorted-array-ii","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/","lists":["google"]},{"title":"Remove Duplicates from Sorted List","slug":"remove-duplicates-from-sorted-list","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/remove-duplicates-from-sorted-list/","lists":["arsh","fraz","google"]},{"title":"Remove Duplicates from Sorted List II","slug":"remove-duplicates-from-sorted-list-ii","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/","lists":["arsh","fraz"]},{"title":"Remove Element","slug":"remove-element","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/remove-element/","lists":["google"]},{"title":"Remove Invalid Parentheses","slug":"remove-invalid-parentheses","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/remove-invalid-parentheses/","lists":["fraz","babbar"]},{"title":"Remove K Digits","slug":"remove-k-digits","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/remove-k-digits/","lists":["arsh","fraz","amazon"]},{"title":"Remove Linked List Elements","slug":"remove-linked-list-elements","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/remove-linked-list-elements/","lists":["arsh","fraz"]},{"title":"Remove Nth Node from End of List","slug":"remove-nth-node-from-end-of-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/remove-nth-node-from-end-of-list/","lists":["nc150","grind169","shradha","striver","arsh","fraz","google"]},{"title":"Reorder List","slug":"reorder-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/reorder-list/","lists":["nc150","grind169","shradha","arsh","fraz"]},{"title":"Leetcode- reorganize strings","slug":"reorganize-string","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/reorganize-string/","lists":["arsh","fraz","amazon","babbar"]},{"title":"Repeated String Match","slug":"repeated-string-match","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/repeated-string-match/","lists":["striver"]},{"title":"Restore the Array from Adjacent Pairs","slug":"restore-the-array-from-adjacent-pairs","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/restore-the-array-from-adjacent-pairs/","lists":["arsh","fraz"]},{"title":"Reverse Bits","slug":"reverse-bits","difficulty":"Easy","topic":"Bit Manipulation","url":"https://leetcode.com/problems/reverse-bits/","lists":["nc150","grind169"]},{"title":"Reverse Integer","slug":"reverse-integer","difficulty":"Medium","topic":"Bit Manipulation","url":"https://leetcode.com/problems/reverse-integer/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Reverse Linked List","slug":"reverse-linked-list","difficulty":"Easy","topic":"Linked List","url":"https://leetcode.com/problems/reverse-linked-list/","lists":["nc150","grind169","shradha","striver","arsh","fraz","amazon"]},{"title":"Reverse Linked List II","slug":"reverse-linked-list-ii","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/reverse-linked-list-ii/","lists":["arsh","fraz"]},{"title":"Reverse Nodes in k-Group","slug":"reverse-nodes-in-k-group","difficulty":"Hard","topic":"Linked List","url":"https://leetcode.com/problems/reverse-nodes-in-k-group/","lists":["nc150","grind169","striver","arsh","fraz"]},{"title":"Reverse Pairs","slug":"reverse-pairs","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/reverse-pairs/","lists":["striver","arsh"]},{"title":"Reverse a String","slug":"reverse-string","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/reverse-string/","lists":["babbar"]},{"title":"Reverse Words in a String","slug":"reverse-words-in-a-string","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/reverse-words-in-a-string/","lists":["striver","arsh","fraz"]},{"title":"Roman to Integer","slug":"roman-to-integer","difficulty":"Easy","topic":"Math & Geometry","url":"https://leetcode.com/problems/roman-to-integer/","lists":["grind169","striver","fraz"]},{"title":"Rotate Array","slug":"rotate-array","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/rotate-array/","lists":["grind169"]},{"title":"Rotate Image","slug":"rotate-image","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/rotate-image/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Rotate List","slug":"rotate-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/rotate-list/","lists":["grind169","striver","fraz"]},{"title":"Rotting Oranges","slug":"rotting-oranges","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/rotting-oranges/","lists":["nc150","grind169","striver","fraz","amazon"]},{"title":"Running Sum of 1D Array","slug":"running-sum-of-1d-array","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/running-sum-of-1d-array/","lists":["fraz"]},{"title":"Same Tree","slug":"same-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/same-tree/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Satisfiability of Equality Equations","slug":"satisfiability-of-equality-equations","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/satisfiability-of-equality-equations/","lists":["fraz"]},{"title":"Search a 2D Matrix","slug":"search-a-2d-matrix","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/search-a-2d-matrix/","lists":["nc150","grind169","striver","fraz","amazon","google","babbar"]},{"title":"Search in a Binary Search Tree","slug":"search-in-a-binary-search-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/search-in-a-binary-search-tree/","lists":["striver"]},{"title":"Search in Rotated Sorted Array","slug":"search-in-rotated-sorted-array","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/search-in-rotated-sorted-array/","lists":["nc150","grind169","shradha","striver","arsh","fraz","amazon","google","babbar"]},{"title":"Search in Rotated Sorted Array II","slug":"search-in-rotated-sorted-array-ii","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/search-in-rotated-sorted-array-ii/","lists":["google"]},{"title":"Search Insert Position","slug":"search-insert-position","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/search-insert-position/","lists":["google"]},{"title":"Serialize and Deserialize Binary Tree","slug":"serialize-and-deserialize-binary-tree","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/serialize-and-deserialize-binary-tree/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Set Matrix Zeroes","slug":"set-matrix-zeroes","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/set-matrix-zeroes/","lists":["nc150","grind169","shradha","striver","arsh"]},{"title":"Shortest Bridge","slug":"shortest-bridge","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/shortest-bridge/","lists":["arsh","fraz"]},{"title":"Shortest Path to Get All Keys","slug":"shortest-path-to-get-all-keys","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/shortest-path-to-get-all-keys/","lists":["fraz"]},{"title":"Shortest Path to Get Food","slug":"shortest-path-to-get-food","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/shortest-path-to-get-food/","lists":["grind169"]},{"title":"Shortest Subarray with Sum at Least K","slug":"shortest-subarray-with-sum-at-least-k","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/","lists":["fraz"]},{"title":"Simplify Path","slug":"simplify-path","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/simplify-path/","lists":["arsh","fraz"]},{"title":"Single Element in a Sorted Array","slug":"single-element-in-a-sorted-array","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/single-element-in-a-sorted-array/","lists":["striver"]},{"title":"Single Number","slug":"single-number","difficulty":"Easy","topic":"Bit Manipulation","url":"https://leetcode.com/problems/single-number/","lists":["nc150","grind169","google"]},{"title":"Single Number II","slug":"single-number-ii","difficulty":"Medium","topic":"Bit Manipulation","url":"https://leetcode.com/problems/single-number-ii/","lists":["google"]},{"title":"Sliding Window Maximum","slug":"sliding-window-maximum","difficulty":"Hard","topic":"Sliding Window","url":"https://leetcode.com/problems/sliding-window-maximum/","lists":["nc150","grind169","striver","arsh","fraz"]},{"title":"Sliding Window Median","slug":"sliding-window-median","difficulty":"Medium","topic":"Sliding Window","url":"https://leetcode.com/problems/sliding-window-median/","lists":["fraz"]},{"title":"Smallest Range Covering Elements from K Lists","slug":"smallest-range-covering-elements-from-k-lists","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/","lists":["grind169","fraz"]},{"title":"Snake and Ladders Problem","slug":"snakes-and-ladders","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/snakes-and-ladders/","lists":["shradha","arsh","fraz","babbar"]},{"title":"Sort Colors","slug":"sort-colors","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/sort-colors/","lists":["grind169","striver","arsh","fraz","google"]},{"title":"Sort List","slug":"sort-list","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/sort-list/","lists":["grind169","arsh","fraz"]},{"title":"Spiral Matrix","slug":"spiral-matrix","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/spiral-matrix/","lists":["nc150","grind169","shradha","arsh","fraz","amazon","google"]},{"title":"Spiral Matrix II","slug":"spiral-matrix-ii","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/spiral-matrix-ii/","lists":["google"]},{"title":"Split Array Largest Sum","slug":"split-array-largest-sum","difficulty":"Hard","topic":"Binary Search","url":"https://leetcode.com/problems/split-array-largest-sum/","lists":["arsh","fraz"]},{"title":"Sqrt(x)","slug":"sqrt-x","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/sqrt-x/","lists":["google"]},{"title":"Sqrt(x)","slug":"sqrtx","difficulty":"Easy","topic":"Binary Search","url":"https://leetcode.com/problems/sqrtx/","lists":["fraz"]},{"title":"Squares of a Sorted Array","slug":"squares-of-a-sorted-array","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/squares-of-a-sorted-array/","lists":["grind169","fraz"]},{"title":"String to Integer (atoi)","slug":"string-to-integer-atoi","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/string-to-integer-atoi/","lists":["grind169","striver","fraz","amazon","google"]},{"title":"Strobogrammatic Number","slug":"strobogrammatic-number","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/strobogrammatic-number/","lists":["google"]},{"title":"Subarray Sum Equals K","slug":"subarray-sum-equals-k","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/subarray-sum-equals-k/","lists":["grind169","arsh","fraz"]},{"title":"Subarray Sums Divisible By K","slug":"subarray-sums-divisible-by-k","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/subarray-sums-divisible-by-k/","lists":["arsh","fraz","amazon"]},{"title":"Subarrays with K Different Integers","slug":"subarrays-with-k-different-integers","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/subarrays-with-k-different-integers/","lists":["fraz"]},{"title":"Subsets","slug":"subsets","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/subsets/","lists":["nc150","grind169","arsh","fraz","google"]},{"title":"Subsets II","slug":"subsets-ii","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/subsets-ii/","lists":["nc150","striver","arsh","fraz"]},{"title":"Substring with Concatenation of All Words","slug":"substring-with-concatenation-of-all-words","difficulty":"Hard","topic":"Strings","url":"https://leetcode.com/problems/substring-with-concatenation-of-all-words/","lists":["fraz"]},{"title":"Subtree of Another Tree","slug":"subtree-of-another-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/subtree-of-another-tree/","lists":["nc150","grind169","shradha","arsh","fraz"]},{"title":"Sudoku Solver","slug":"sudoku-solver","difficulty":"Hard","topic":"Backtracking","url":"https://leetcode.com/problems/sudoku-solver/","lists":["grind169","striver","arsh","fraz"]},{"title":"Sum of Distances in Tree","slug":"sum-of-distances-in-tree","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/sum-of-distances-in-tree/","lists":["arsh","fraz"]},{"title":"Sum of Left Leaves","slug":"sum-of-left-leaves","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/sum-of-left-leaves/","lists":["arsh","fraz"]},{"title":"Sum of Subarray Minimums","slug":"sum-of-subarray-minimums","difficulty":"Medium","topic":"Stack","url":"https://leetcode.com/problems/sum-of-subarray-minimums/","lists":["arsh","fraz"]},{"title":"Sum of Two Integers","slug":"sum-of-two-integers","difficulty":"Medium","topic":"Bit Manipulation","url":"https://leetcode.com/problems/sum-of-two-integers/","lists":["nc150","fraz"]},{"title":"Sum Root to Leaf Numbers","slug":"sum-root-to-leaf-numbers","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/sum-root-to-leaf-numbers/","lists":["google"]},{"title":"Super Egg Drop","slug":"super-egg-drop","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/super-egg-drop/","lists":["arsh","fraz"]},{"title":"Surrounded Regions","slug":"surrounded-regions","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/surrounded-regions/","lists":["nc150","google"]},{"title":"Swap Nodes in Pairs","slug":"swap-nodes-in-pairs","difficulty":"Medium","topic":"Linked List","url":"https://leetcode.com/problems/swap-nodes-in-pairs/","lists":["grind169","fraz","google"]},{"title":"Swim in Rising Water","slug":"swim-in-rising-water","difficulty":"Hard","topic":"Advanced Graphs","url":"https://leetcode.com/problems/swim-in-rising-water/","lists":["nc150","arsh","fraz"]},{"title":"Symmetric Tree","slug":"symmetric-tree","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/symmetric-tree/","lists":["grind169","striver","arsh","fraz","google"]},{"title":"Target Sum","slug":"target-sum","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/target-sum/","lists":["nc150"]},{"title":"Task Scheduler","slug":"task-scheduler","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/task-scheduler/","lists":["nc150","grind169","arsh","fraz"]},{"title":"Text Justification","slug":"text-justification","difficulty":"Hard","topic":"Strings","url":"https://leetcode.com/problems/text-justification/","lists":["arsh","fraz"]},{"title":"The Kth Factor of n)","slug":"the-kth-factor-of-n","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/the-kth-factor-of-n/","lists":["arsh","fraz"]},{"title":"The Skyline Problem","slug":"the-skyline-problem","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/the-skyline-problem/","lists":["fraz"]},{"title":"Time Based Key-Value Store","slug":"time-based-key-value-store","difficulty":"Medium","topic":"Binary Search","url":"https://leetcode.com/problems/time-based-key-value-store/","lists":["nc150","grind169","fraz"]},{"title":"Time Needed to Inform All Employees","slug":"time-needed-to-inform-all-employees","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/time-needed-to-inform-all-employees/","lists":["arsh","fraz"]},{"title":"Top K Frequent Elements","slug":"top-k-frequent-elements","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/top-k-frequent-elements/","lists":["nc150","shradha","arsh","fraz","amazon"]},{"title":"Top K Frequent Words","slug":"top-k-frequent-words","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/top-k-frequent-words/","lists":["grind169"]},{"title":"Trapping Rain Water","slug":"trapping-rain-water","difficulty":"Hard","topic":"Two Pointers","url":"https://leetcode.com/problems/trapping-rain-water/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Trapping Rain Water II","slug":"trapping-rain-water-ii","difficulty":"Hard","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/trapping-rain-water-ii/","lists":["fraz"]},{"title":"Tweet Counts Per Frequency","slug":"tweet-counts-per-frequency","difficulty":"Medium","topic":"Design","url":"https://leetcode.com/problems/tweet-counts-per-frequency/","lists":["fraz"]},{"title":"Two Sum","slug":"two-sum","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/two-sum/","lists":["nc150","grind169","striver","arsh","fraz","amazon","google"]},{"title":"Two Sum II Input Array is Sorted","slug":"two-sum-ii-input-array-is-sorted","difficulty":"Medium","topic":"Two Pointers","url":"https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/","lists":["nc150"]},{"title":"Two Sum IV Input is a BST","slug":"two-sum-iv-input-is-a-bst","difficulty":"Easy","topic":"Trees","url":"https://leetcode.com/problems/two-sum-iv-input-is-a-bst/","lists":["striver"]},{"title":"Ugly Number II","slug":"ugly-number-ii","difficulty":"Medium","topic":"Heap / Priority Queue","url":"https://leetcode.com/problems/ugly-number-ii/","lists":["arsh","fraz"]},{"title":"Unique Binary Search Trees","slug":"unique-binary-search-trees","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/unique-binary-search-trees/","lists":["arsh","fraz","google"]},{"title":"Unique Binary Search Trees II","slug":"unique-binary-search-trees-ii","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/unique-binary-search-trees-ii/","lists":["arsh","fraz"]},{"title":"Unique Paths","slug":"unique-paths","difficulty":"Medium","topic":"2-D Dynamic Programming","url":"https://leetcode.com/problems/unique-paths/","lists":["nc150","grind169","shradha","striver","arsh","fraz","amazon"]},{"title":"Unique Paths III","slug":"unique-paths-iii","difficulty":"Hard","topic":"Backtracking","url":"https://leetcode.com/problems/unique-paths-iii/","lists":["arsh","fraz"]},{"title":"Valid Anagram","slug":"valid-anagram","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/valid-anagram/","lists":["nc150","grind169","shradha","striver","google"]},{"title":"Valid Number","slug":"valid-number","difficulty":"Hard","topic":"Strings","url":"https://leetcode.com/problems/valid-number/","lists":["arsh","fraz"]},{"title":"Valid Palindrome","slug":"valid-palindrome","difficulty":"Easy","topic":"Two Pointers","url":"https://leetcode.com/problems/valid-palindrome/","lists":["nc150","grind169","shradha"]},{"title":"Valid Palindrome II","slug":"valid-palindrome-ii","difficulty":"Easy","topic":"Strings","url":"https://leetcode.com/problems/valid-palindrome-ii/","lists":["arsh","fraz"]},{"title":"Valid Parentheses","slug":"valid-parentheses","difficulty":"Easy","topic":"Stack","url":"https://leetcode.com/problems/valid-parentheses/","lists":["nc150","grind169","shradha","striver","arsh","amazon"]},{"title":"Valid Parenthesis String","slug":"valid-parenthesis-string","difficulty":"Medium","topic":"Greedy","url":"https://leetcode.com/problems/valid-parenthesis-string/","lists":["nc150"]},{"title":"Valid Square","slug":"valid-square","difficulty":"Medium","topic":"Math & Geometry","url":"https://leetcode.com/problems/valid-square/","lists":["arsh","fraz"]},{"title":"Valid Sudoku","slug":"valid-sudoku","difficulty":"Medium","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/valid-sudoku/","lists":["nc150","grind169"]},{"title":"Validate Binary Search Tree","slug":"validate-binary-search-tree","difficulty":"Medium","topic":"Trees","url":"https://leetcode.com/problems/validate-binary-search-tree/","lists":["nc150","grind169","shradha","striver","arsh","fraz"]},{"title":"Verifying an Alien Dictionary","slug":"verifying-an-alien-dictionary","difficulty":"Easy","topic":"Arrays & Hashing","url":"https://leetcode.com/problems/verifying-an-alien-dictionary/","lists":["fraz"]},{"title":"Vertical Order Traversal of a Binary Tree","slug":"vertical-order-traversal-of-a-binary-tree","difficulty":"Hard","topic":"Trees","url":"https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/","lists":["arsh","fraz"]},{"title":"Walls and Gates","slug":"walls-and-gates","difficulty":"Medium","topic":"Graphs","url":"https://leetcode.com/problems/walls-and-gates/","lists":["nc150"]},{"title":"Word Break","slug":"word-break","difficulty":"Medium","topic":"1-D Dynamic Programming","url":"https://leetcode.com/problems/word-break/","lists":["nc150","grind169","shradha","fraz","amazon"]},{"title":"Word Break II","slug":"word-break-ii","difficulty":"Hard","topic":"Dynamic Programming","url":"https://leetcode.com/problems/word-break-ii/","lists":["fraz"]},{"title":"Word Ladder","slug":"word-ladder","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/word-ladder/","lists":["nc150","grind169","shradha","arsh","fraz","babbar"]},{"title":"Word Ladder II","slug":"word-ladder-ii","difficulty":"Hard","topic":"Graphs","url":"https://leetcode.com/problems/word-ladder-ii/","lists":["fraz"]},{"title":"Word Search","slug":"word-search","difficulty":"Medium","topic":"Backtracking","url":"https://leetcode.com/problems/word-search/","lists":["nc150","grind169","shradha","arsh","fraz","amazon","google"]},{"title":"Word Search II","slug":"word-search-ii","difficulty":"Hard","topic":"Tries","url":"https://leetcode.com/problems/word-search-ii/","lists":["nc150","grind169"]},{"title":"ZigZag Conversion","slug":"zigzag-conversion","difficulty":"Medium","topic":"Strings","url":"https://leetcode.com/problems/zigzag-conversion/","lists":["fraz","google"]}];
 
+// ---------- Theme ----------
+const sunIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></svg>';
+const moonIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>';
+let theme = 'light';
+try { theme = localStorage.getItem('dsa_tracker_theme') || 'light'; } catch(e) {}
+const themeBtn = document.getElementById('themeToggle');
+function applyTheme(t){
+  theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  themeBtn.innerHTML = t === 'dark' ? sunIcon : moonIcon;
+  try { localStorage.setItem('dsa_tracker_theme', t); } catch(e) {}
+}
+applyTheme(theme);
+themeBtn.addEventListener('click', () => applyTheme(theme === 'dark' ? 'light' : 'dark'));
+
 const LISTS = [
-  {id:'nc150', name:'NeetCode 150'},
-  {id:'grind169', name:'Grind 169'},
-  {id:'striver', name:'Striver SDE Sheet'},
-  {id:'fraz', name:'Fraz DSA Sheet'},
-  {id:'arsh', name:'Arsh 45-Day Sheet'},
-  {id:'amazon', name:'Amazon SDE Sheet'},
-  {id:'google', name:'Google-tagged Questions'},
-  {id:'shradha', name:'Apna College'},
-  {id:'babbar', name:'Love Babbar 450'},
+  {id:'nc150', name:'NeetCode 150', abbr:'NC'},
+  {id:'grind169', name:'Grind 169', abbr:'G169'},
+  {id:'striver', name:'Striver SDE Sheet', abbr:'STR'},
+  {id:'fraz', name:'Fraz DSA Sheet', abbr:'FRZ'},
+  {id:'arsh', name:'Arsh 45-Day Sheet', abbr:'ARH'},
+  {id:'amazon', name:'Amazon SDE Sheet', abbr:'AMZ'},
+  {id:'google', name:'Google-tagged Questions', abbr:'GOO'},
+  {id:'shradha', name:'Apna College', abbr:'APC'},
+  {id:'babbar', name:'Love Babbar 450', abbr:'LB'},
 ];
+const LIST_ABBR = Object.fromEntries(LISTS.map(l => [l.id, l.abbr]));
 const LIST_NAME = Object.fromEntries(LISTS.map(l => [l.id, l.name]));
 
 const state = {
@@ -325,50 +352,57 @@ const state = {
   mode: 'any',
   diffs: new Set(),
   topics: new Set(),
-  q: ''
+  q: '',
+  collapsed: new Set()
 };
 
 let done = {};
 try { done = JSON.parse(localStorage.getItem('dsa_tracker_done') || '{}'); } catch(e) { done = {}; }
 function saveDone(){ try { localStorage.setItem('dsa_tracker_done', JSON.stringify(done)); } catch(e) {} }
 
-const RING_CIRC = 2 * Math.PI * 36;
-const ringFill = document.getElementById('ringFill');
-ringFill.style.strokeDasharray = RING_CIRC;
-
-function updateRing(){
+function updateStreak(){
   const doneN = PROBLEMS.filter(p => done[p.slug]).length;
-  const pct = PROBLEMS.length ? doneN / PROBLEMS.length : 0;
-  ringFill.style.strokeDashoffset = RING_CIRC * (1 - pct);
-  document.getElementById('ringPct').textContent = Math.round(pct * 100) + '%';
   document.getElementById('doneCount').textContent = doneN;
 }
-updateRing();
-
-const iconInclude = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-const iconExclude = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-const iconNeutral = '';
+updateStreak();
 
 const listRailEl = document.getElementById('listRail');
 LISTS.forEach(l => {
   const count = PROBLEMS.filter(p => p.lists.includes(l.id)).length;
   const row = document.createElement('div');
-  row.className = 'list-row';
+  row.className = 'sheet-row';
   row.innerHTML = `
-    <button class="tri-btn" data-list="${l.id}" data-state="0" title="Click to include, click again to exclude"></button>
-    <span class="lname">${l.name}</span>
+    <label style="display:contents;">
+      <input type="checkbox" class="list-include" data-list="${l.id}">
+      <span class="lname">${l.name}</span>
+    </label>
     <span class="lcount">${count}</span>
+    <button class="exclude-btn" data-list="${l.id}" title="Exclude this sheet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
   `;
   listRailEl.appendChild(row);
 });
+listRailEl.addEventListener('change', e => {
+  const cb = e.target.closest('.list-include');
+  if (!cb) return;
+  const id = cb.getAttribute('data-list');
+  state.listState[id] = cb.checked ? 1 : 0;
+  const row = cb.closest('.sheet-row');
+  row.classList.toggle('checked', cb.checked);
+  row.querySelector('.exclude-btn').classList.remove('active');
+  render();
+});
 listRailEl.addEventListener('click', e => {
-  const btn = e.target.closest('.tri-btn');
+  const btn = e.target.closest('.exclude-btn');
   if (!btn) return;
   const id = btn.getAttribute('data-list');
-  const next = { 0: 1, 1: -1, '-1': 0 }[state.listState[id]];
-  state.listState[id] = next;
-  btn.setAttribute('data-state', next === 1 ? 'include' : next === -1 ? 'exclude' : '0');
-  btn.innerHTML = next === 1 ? iconInclude : next === -1 ? iconExclude : iconNeutral;
+  const nowExcluded = state.listState[id] !== -1;
+  state.listState[id] = nowExcluded ? -1 : 0;
+  btn.classList.toggle('active', nowExcluded);
+  const row = btn.closest('.sheet-row');
+  const cb = row.querySelector('.list-include');
+  if (nowExcluded) { cb.checked = false; row.classList.remove('checked'); }
   render();
 });
 
@@ -420,9 +454,11 @@ document.getElementById('searchInput').addEventListener('input', e => {
   render();
 });
 
-document.getElementById('resetBtn').addEventListener('click', () => {
+function resetAll(){
   LISTS.forEach(l => state.listState[l.id] = 0);
-  document.querySelectorAll('.tri-btn').forEach(b => { b.setAttribute('data-state','0'); b.innerHTML = ''; });
+  document.querySelectorAll('.list-include').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.exclude-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sheet-row').forEach(r => r.classList.remove('checked'));
   state.mode = 'any';
   document.querySelectorAll('#modeToggle button').forEach(b => b.classList.remove('active'));
   document.querySelector('#modeToggle button[data-mode="any"]').classList.add('active');
@@ -431,7 +467,9 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('#topicList input').forEach(c => c.checked = false);
   render();
-});
+}
+document.getElementById('resetBtn').addEventListener('click', resetAll);
+document.getElementById('resetBtn2').addEventListener('click', resetAll);
 
 document.getElementById('railToggle').addEventListener('click', () => {
   document.getElementById('rail').classList.toggle('open');
@@ -456,6 +494,9 @@ function renderActiveFilters(){
   });
 }
 
+const practiceIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>';
+const chevIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
 function render(){
   renderActiveFilters();
 
@@ -466,9 +507,6 @@ function render(){
     if (state.q && !p.title.toLowerCase().includes(state.q)) return false;
     return true;
   });
-
-  document.getElementById('resultCount').textContent =
-    filtered.length + (filtered.length === 1 ? ' problem' : ' problems');
 
   const results = document.getElementById('results');
   results.innerHTML = '';
@@ -485,36 +523,47 @@ function render(){
     if (!byTopic[t]) return;
     const items = byTopic[t];
     const doneCount = items.filter(p => done[p.slug]).length;
-    const pct = items.length ? Math.round((doneCount / items.length) * 100) : 0;
+    const isCollapsed = state.collapsed.has(t);
 
     const group = document.createElement('div');
-    group.className = 'group';
+    group.className = 'group' + (isCollapsed ? ' collapsed' : '');
     group.innerHTML = `
-      <div class="group-head">
+      <div class="group-head" data-topic="${t}">
         <h3>${t}</h3>
-        <div class="gbar"><div class="gbar-fill" style="width:${pct}%"></div></div>
         <span class="gmeta">${doneCount}/${items.length}</span>
-      </div>`;
+        <span class="chev">${chevIcon}</span>
+      </div>
+      <div class="col-head">
+        <span></span><span>Problem</span><span>Level</span><span>Sheets</span><span>Practice</span>
+      </div>
+    `;
+
+    group.querySelector('.group-head').addEventListener('click', () => {
+      if (state.collapsed.has(t)) state.collapsed.delete(t); else state.collapsed.add(t);
+      group.classList.toggle('collapsed');
+    });
 
     items.forEach(p => {
       const row = document.createElement('div');
       row.className = 'row' + (done[p.slug] ? ' done' : '');
-      const badges = p.lists.map(id => `<span class="badge">${LIST_NAME[id].split(' ')[0]}</span>`).join('');
+      const shown = p.lists.slice(0, 4);
+      const extra = p.lists.length - shown.length;
+      let badges = shown.map(id => `<span class="badge" title="${LIST_NAME[id]}">${LIST_ABBR[id]}</span>`).join('');
+      if (extra > 0) badges += `<span class="badge more">+${extra}</span>`;
       row.innerHTML = `
         <input type="checkbox" ${done[p.slug] ? 'checked' : ''} data-slug="${p.slug}">
         <span class="rtitle"><a href="${p.url}" target="_blank" rel="noopener">${p.title}</a></span>
-        <span class="diff ${p.difficulty}">${p.difficulty}</span>
+        <span class="diff-pill ${p.difficulty}">${p.difficulty}</span>
         <span class="badges">${badges}</span>
+        <a class="icon-btn" href="${p.url}" target="_blank" rel="noopener" title="Open on LeetCode">${practiceIcon}</a>
       `;
       row.querySelector('input').addEventListener('change', e => {
         if (e.target.checked) done[p.slug] = true; else delete done[p.slug];
         saveDone();
-        updateRing();
+        updateStreak();
         row.classList.toggle('done', e.target.checked);
         const dc = items.filter(pp => done[pp.slug]).length;
-        const p2 = items.length ? Math.round((dc / items.length) * 100) : 0;
         group.querySelector('.gmeta').textContent = `${dc}/${items.length}`;
-        group.querySelector('.gbar-fill').style.width = p2 + '%';
       });
       group.appendChild(row);
     });
